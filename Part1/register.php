@@ -177,7 +177,7 @@ include('header.php'); ?>
 								
 							</div>
 							
-							<input class="btn btn-lg btn-success btn-block" type="submit" name="submit" value="Register" /></div>
+							<input class="btn btn-lg btn-success btn-block" type="submit" name="submit" value="Register" >
 							
 						</form>
 					</div>

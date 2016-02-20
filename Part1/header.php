@@ -81,7 +81,7 @@ session_start();
 			if (isset($_SESSION['user_id'])) {  // User is logged in
 				
 				echo '<li><a href="logout.php">Logout</a></li>
-					  <li><a href="">Change Password</a></li>';
+					  <li><a href="change_password.php">Change Password</a></li>';
 				
 				if ($_SESSION['user_level'] == '0') { // User is Student
 					echo '<li><a href="">Student Link 1</a></li>
@@ -94,7 +94,7 @@ session_start();
 				}
 				
 				if ($_SESSION['user_level'] == '2') { // User is Administrator
-					echo '<li><a href="">View All Users</a></li>
+					echo '<li><a href="view_users.php">View All Users</a></li>
 					      <li><a href="">Other Admin Stuff</a></li>';
 				}
 			} else {  // User Not Logged In

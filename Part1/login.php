@@ -91,8 +91,7 @@ include("header.php"); ?>
 									<input class="form-control" placeholder="Password" name="pass" type="password" value="">
 								</div>
 								
-								<!-- Change this to a button or input when using this as a form -->
-								<input type="submit" name="submit" value="Login" class="btn btn-lg btn-success btn-block" />                    </fieldset>
+								<input type="submit" name="submit" value="Login" class="btn btn-lg btn-success btn-block" >                    </fieldset>
 						</form>
 					</div>
 				</div>
