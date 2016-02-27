@@ -43,7 +43,7 @@ include("header.php"); ?>
 			if ($email && $pw) {
 				
 				// Query database
-				$q = "SELECT user_id, first_name, user_level FROM users WHERE (email='$email' AND pass=SHA1('$pw')) AND active IS NULL";
+				$q = "SELECT user_id, first_name, last_name, user_level FROM users WHERE (email='$email' AND pass=SHA1('$pw')) AND active IS NULL";
 				$r = mysqli_query($dbc, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($dbc));
 				
 				// If the user was found in the database

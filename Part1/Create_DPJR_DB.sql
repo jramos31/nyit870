@@ -40,38 +40,44 @@ INSERT INTO users (first_name, last_name, email, pass, user_level, registration_
 ('Dix', 'Porras', 'dicksonporras@gmail.com', SHA1('pass_16'), 2, NOW()),
 ('Dicks', 'Porras', 'dicksonporras@yahoo.com', SHA1('pass_16'), 0, NOW()),
 ('Dickson', 'Porras', 'dporras@nyit.edu', SHA1('pass_16'), 0, NOW()),
-('Dave', 'Atherton', 'daather1031@gmail.com', SHA1('pass_16'), 1, NOW());
+('Dave', 'Atherton', 'daather1031@gmail.com', SHA1('pass_16'), 1, NOW()),
+('Paul', 'Stanley', 'starchild@kiss.com', SHA1('pass_16'), 1, NOW()),
+('Gene', 'Simmons', 'demon@kiss.com', SHA1('pass_16'), 1, NOW());
 
 # ******************************************************************************************************************************************
 
 
 
-# **********************************************************
+# *******************************************************************************************
 # Create and populate the courses table
 # ** NOTE ON 'prof_id' Foreign Key:
 #    - prof_id references the user_id property in the users table 
 #    - it will only reference those users are professors
 #      prof_id identifies who the instructor of the course is
-# **********************************************************
+# *******************************************************************************************
 CREATE TABLE courses (
 course_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 course_num VARCHAR(10) NOT NULL,
 course_title VARCHAR(60) NOT NULL,
 section_num VARCHAR(3) NOT NULL,
+semester VARCHAR(12) NOT NULL,
 prof_id INT UNSIGNED NOT NULL,
 PRIMARY KEY (course_id),
 INDEX (prof_id),
 FOREIGN KEY(prof_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-INSERT INTO courses (course_num, course_title, section_num, prof_id) VALUES 
-('CSCI 641', 'Computer Architecture', 'M01', 4),
-('CSCI 755', 'Artificial Intelligence I', 'M01', 4);
+INSERT INTO courses (course_num, course_title, section_num, semester, prof_id) VALUES 
+('CSCI 641', 'Computer Architecture', 'M01', 'Fall 2015', 4),
+('CSCI 641', 'Computer Architecture', 'M02', 'Fall 2015', 5),
+('CSCI 690', 'Computer Networks', 'M01', 'Fall 2015', 5),
+('CSCI 755', 'Artificial Intelligence I', 'M01', 'Fall 2015', 4),
+('CSCI 760', 'Database Systems', 'M01', 'Fall 2015', 6);
 
 # ******************************************************************************************************************************************
 
 
-# **********************************************************
+# *******************************************************************************************
 # Create and populate the assignments table
 # ** NOTE ON 'course_id' Foreign Key:
 #    - course_id references the course_id property in the courses table
@@ -79,7 +85,7 @@ INSERT INTO courses (course_num, course_title, section_num, prof_id) VALUES
 #    - there is no need to directly identify the instructor who posted the assignment
 #      since the courses table already does that with its prof_id property 
 #      which also happens to be a foreign key that references the users table
-# **********************************************************
+# *******************************************************************************************
 CREATE TABLE assignments (
 asmnt_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 asmnt_title VARCHAR(60) NOT NULL,
@@ -93,6 +99,56 @@ FOREIGN KEY(course_id) REFERENCES courses(course_id) ON DELETE NO ACTION ON UPDA
 
 INSERT INTO assignments (asmnt_title, content, date_posted, course_id) VALUES
 ('HW 1 - Chapter 1', 'Do questions # 1 - 5', NOW(), 1),
-('HW 1 - Lecture 1', 'Write a 2-page paper on Watson', NOW(), 2);
+('HW 1 - Lecture 1', 'Write a 2-page paper on Watson', NOW(), 4);
 
 # ******************************************************************************************************************************************
+
+# *******************************************************************************************
+# Create and populate the announcements table
+# ** NOTE:
+#    - nearly identical to the assignments table
+#    - Purpose: for posting general info (non-homework related)
+#      such as absences or test dates (ex: Quizzes, mid-terms, finals)
+# *******************************************************************************************
+CREATE TABLE announcements (
+ann_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+subject VARCHAR(60) NOT NULL,
+content VARCHAR(150) NOT NULL,
+date_posted DATETIME NOT NULL,
+course_id INT UNSIGNED NOT NULL,
+PRIMARY KEY (ann_id),
+INDEX (course_id),
+FOREIGN KEY(course_id) REFERENCES courses(course_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+INSERT INTO announcements (subject, content, date_posted, course_id) VALUES
+('No class on Monday', 'I will be out on Monday because I need to have surgery. Class resumes following monday', NOW(), 1),
+('Quiz # 3', 'The third quiz will be postponed til after mid-terms.', NOW(), 4),
+('Quiz # 3 - Update', 'Sorry Kids!!! Quiz 3 is Back On! NO EXTRA CREDIT!!!.', NOW(), 4);
+
+
+# ******************************************************************************************************************************************
+
+# *******************************************************************************************
+# Create and populate the students table
+# ** NOTE: 
+#    - Since students are also registered users, this table will have foreign key referencing the users table 
+#    - Another foreign key will reference the courses table, since a student may be a student in more than one class
+# *******************************************************************************************
+CREATE TABLE students (
+stud_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+user_id INT UNSIGNED NOT NULL,
+course_id INT UNSIGNED NOT NULL,
+PRIMARY KEY(stud_id),
+INDEX(user_id),
+FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+FOREIGN KEY(course_id) REFERENCES courses(course_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+INSERT INTO students (user_id, course_id) VALUES
+(2, 1),
+(2, 3),
+(2, 4),
+(3, 2),
+(3, 4),
+(3, 5);

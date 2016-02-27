@@ -56,7 +56,8 @@ require_once('mysqli_connect.php');
 						
 						// Close the table and free the memory
 							echo '</tbody>
-						</table>';
+						</table>
+					</div>';
 						mysqli_free_result($r);
 						
 			} else { // No rows were returned 

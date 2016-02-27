@@ -17,7 +17,7 @@ session_start();
 
     <title>DP-JR Blackboard</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
@@ -40,18 +40,15 @@ session_start();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">DP-JR Blackboard</a>
+          <a class="navbar-brand" href="#">D&J Blackboard</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Homeboard</a></li>
             <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a href="view_my_info.php">Profile</a></li>
             <li><a href="#">Help</a></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
+          </ul>		  
         </div>
       </div>
     </nav>
@@ -74,7 +71,11 @@ session_start();
 		
 		  <ul class="nav nav-sidebar">
             <li><a href="index.php">Home</a></li>
-			
+			<li><a href="#">Announcements</a></li>
+			<li><a href="#">To-Do List</a></li>
+			<li><a href="#">Address Book</a></li>
+			<li><a href="#">Calendar</a></li>
+			<li><a href="view_my_info.php">My Info</a></li>
 			<?php 
 			/********  Display links depending on log in status  *********/
 			
@@ -84,12 +85,13 @@ session_start();
 					  <li><a href="change_password.php">Change Password</a></li>';
 				
 				if ($_SESSION['user_level'] == '0') { // User is Student
-					echo '<li><a href="">Student Link 1</a></li>
-					      <li><a href="">Student Link 2</a></li>';
+					echo '<li class="active"><a href="#">Student Options <span class="sr-only">(current)</span></a></li>
+						  <li><a href="view_grades.php">My Grades</a></li>
+					      <li><a href="view_courses.php">My Courses</a></li>';
 				}
 				
 				if ($_SESSION['user_level'] == '1') { // User is Professor/Faculty
-					echo '<li><a href="">Faculty Link 1</a></li>
+					echo '<li><a href="view_courses.php">My Courses</a></li>
 					      <li><a href="">Faculty Link 2</a></li>';
 				}
 				
