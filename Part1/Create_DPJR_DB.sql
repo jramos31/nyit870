@@ -90,6 +90,7 @@ CREATE TABLE assignments (
 asmnt_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 asmnt_title VARCHAR(60) NOT NULL,
 content VARCHAR(100) NOT NULL,
+file_path VARCHAR(100) NULL,
 date_posted DATETIME NOT NULL,
 course_id INT UNSIGNED NOT NULL,
 PRIMARY KEY (asmnt_id),
@@ -114,6 +115,7 @@ CREATE TABLE announcements (
 ann_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 subject VARCHAR(60) NOT NULL,
 content VARCHAR(150) NOT NULL,
+file_path VARCHAR(100) NULL,
 date_posted DATETIME NOT NULL,
 course_id INT UNSIGNED NOT NULL,
 PRIMARY KEY (ann_id),
@@ -152,3 +154,29 @@ INSERT INTO students (user_id, course_id) VALUES
 (3, 2),
 (3, 4),
 (3, 5);
+
+
+# ******************************************************************************************************************************************
+
+# *******************************************************************************************
+# Create and populate the homeworks table
+# ** NOTE: 
+#    - This table contain the file path to the homework documents submitted by Student-users. 
+#    - It contains Foreign Keys the students and assignments. 
+#    - There is no need to directly reference the courses table since the students and assignments
+#      tables both have the Foreign Key 'course_id' referencing that table.
+# *******************************************************************************************
+CREATE TABLE homeworks (
+hw_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+comments VARCHAR(120) NULL,
+file_path VARCHAR(100) NOT NULL,
+asmnt_id INT UNSIGNED NOT NULL,
+s_id INT UNSIGNED NOT NULL,
+PRIMARY KEY(hw_id),
+INDEX(asmnt_id),
+FOREIGN KEY(asmnt_id) REFERENCES assignments(asmnt_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+FOREIGN KEY(s_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+INSERT INTO homeworks (comments, file_path, asmnt_id, s_id) VALUES 
+('First Homework - Watson, COMPLETED!', 'uploads_homeworks\\hw1.docx', 2, 2);

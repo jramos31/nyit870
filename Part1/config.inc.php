@@ -7,6 +7,16 @@ define('EMAIL', 'dicksonporras@gmail.com');
 // Site URL, the root domain for this development site 
 define('BASE_URL', 'http://localhost:8080/CSCI870/Part1/');
 
+// Location of where students' homework files are uploaded to
+define('HW_DIR', 'uploads_homeworks');											  // The Directory              -  Relative Path
+define('HW_DOCS', getcwd() . DIRECTORY_SEPARATOR . HW_DIR);  // Path to the directory     -  Absolute Path
+
+// Location of documents uploaded by course instructors
+define('ANNOUNCE_DIR', 'uploads_announcements');														// The Directory  -  Relative Path
+define('ANNOUNCE_DOCS', getcwd() . DIRECTORY_SEPARATOR . ANNOUNCE_DIR);     // Path to the directory  -  Absolute Path
+define('ASSIGN_DIR', 'uploads_assignments');															   // The Directory   -  Relative Path
+define('ASSIGN_DOCS', getcwd() . DIRECTORY_SEPARATOR . ASSIGN_DIR);              // Path to the directory   -  Absolute Path
+
 // Location of MySQL connection script
 define('MYSQL_CONN', 'mysqli_connect.php');
 
