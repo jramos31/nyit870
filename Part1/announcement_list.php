@@ -145,7 +145,7 @@ require('pagination_links.php');
 										<label>Select File:</label>
 										<input class="form-control" name="upload" type="file">
 										
-										<label><small>Select a MS Word Document (.doc, .docx) or PDF file of 524 KB or Smaller to be uploaded</small></label>
+										<label><small>Select a MS Word Document (.doc, .docx) 524 KB or Smaller to be uploaded</small></label>
 										<input name="MAX_FILE_SIZE" type="hidden" value="524288">
 										
 										<input name="course_id" type="hidden" value="' . $id .'">							

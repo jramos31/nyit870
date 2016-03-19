@@ -50,9 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 			if ($file_ext_index == '') {  // add the proper file extension if the user left it out 
 				
 				switch($file_mime) {
-					case 'application/pdf':
-						$file_name = $file_name . '.pdf';
-						break;
 					case 'application/msword':
 						$file_name = $file_name . '.doc';
 						break;
@@ -81,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 		// Verify that it's type of file we want uploaded (Only Word Documents or PDF's)	
 		// ** Even if the user specifies a file name with an acceptable file extension,
 		//    if the file type is not acceptable (image files) they'll still be rejected
-		if ( $file_mime == 'application/pdf' || $file_mime == 'application/msword' || 
+		if ( $file_mime == 'application/msword' || 
 		     $file_mime == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ) {
 						
 			// Check that the file size doesn't exceed the maximum limit (524 KB or 524288 Bytes)
@@ -135,16 +132,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 				<div class="col-lg-12">
 					<div class="alert alert-warning">
 						<p align="center">The file you tried to upload was not the correct type.</p>
-						<p align="center">Please upload only PDF files (.pdf) or MS Word Documents (.doc, .docx)</p>
+						<p align="center">Please upload only MS Word Documents (.doc, .docx)</p>
 					</div>
 				</div>
 			</div>';
 			exit();
 		}
-		//exit(); // Comment out or Remove this line to proceed with Database Insertion
-		
-	} // End of IF:     if (is_uploaded_file($_FILES['upload']['tmp_name'])) 
-		
+	}// End of IF:     if (is_uploaded_file($_FILES['upload']['tmp_name'])) 
+	//exit(); // Comment out or Remove this line to proceed with Database Insertion	
 
 	if ($subject && $body) {  // Both are validated
 		
@@ -152,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 		
 		if ($file_upload) { // A file was uploaded and validated
 			// Add new assignment with "relative" file path into the database
-			$file_path = ASSIGN_DIR . DIRECTORY_SEPARATOR . $file_name;
+			$file_path = ASSIGN_DIR . '/' . $file_name;
 			$q = "INSERT INTO assignments (asmnt_title, content, file_path, date_posted, course_id) 
 				  VALUES ('" . mysqli_real_escape_string($dbc, $subject) . "', '" . mysqli_real_escape_string($dbc, $body) . "', '" . mysqli_real_escape_string($dbc, $file_path) . "' , NOW(), '$id')";
 		} else {

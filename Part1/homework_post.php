@@ -45,7 +45,7 @@ require_once('mysqli_connect.php');
 								echo '<div class="row">
 									<div class="col-lg-12">
 										<div class="alert alert-warning">
-											<p align="center">File MS Word Document</p>
+											<p align="center">File must be a MS Word Document</p>
 										</div>
 									</div>
 								</div>';
@@ -59,24 +59,7 @@ require_once('mysqli_connect.php');
 				$source = $_FILES['upload']['tmp_name'];  // temporary location of uploaded file on web server	
 				$file_size = $_FILES['upload']['size'];   // get file size in bytes		
 				$max_file_size = $_POST['MAX_FILE_SIZE']; // Maximum file size as indicated in the form in assignment_list.php
-				
-				
-				// ##############  start debug  ############################
-				// Display basic file info
-				/*
-				echo '<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-warning">
-							<p align="center">File name is: ' . $file_name . '</p>
-							<p align="center">File MIME Type: ' . $file_mime . '</p>
-							<p align="center">File Size: ' . $file_size . ' Bytes</p>
-							<p align="center">Source name: ' . $source . '</p>
-							<p align="center">Maximum File Size: ' . $max_file_size . '</p>
-						</div>
-					</div>
-				</div>';
-				*/
-				// ################   end debug  ###############################
+								
 				
 				// Verify that it's type of file we want uploaded (Only Word Documents )	
 				// ** Even if the user specifies a file name with an acceptable file extension,
@@ -107,8 +90,8 @@ require_once('mysqli_connect.php');
 							<div class="col-lg-12">
 								<div class="alert alert-warning">
 									<p align="center">Error: A file with that name already exists.
-									Please try changing the file name before uploading it.
-									</p>
+									Please try changing the file name before uploading it.<br>';
+									echo 'To go back <a href="assignment_list.php?id=' . $c_id . '">Click Here</a></p>
 								</div>
 							</div>
 						</div>';
@@ -119,20 +102,6 @@ require_once('mysqli_connect.php');
 					if (move_uploaded_file($source, $target)) { 
 					
 						$file_upload = TRUE;   //  SUCCESS
-						
-						// ######## For debugging ########
-						/*
-						echo '<div class="row">
-							<div class="col-lg-12">
-								<div class="alert alert-success">
-									<p align="center">The file was uploaded.</p>
-									<p align="center">Saved to: "' . $target . '"</p>
-									<p align="center">Document: <a href="' . $file_dir . DIRECTORY_SEPARATOR . $file_name . '">Click this link!</a></p>
-								</div>
-							</div>
-						</div>';
-						*/
-						// ##################################
 						
 					} else {
 						echo '<div class="row">
@@ -158,12 +127,22 @@ require_once('mysqli_connect.php');
 					include('footer.php');
 					exit();
 				}
-				//exit(); // Comment out or Remove this line to proceed with Database Insertion
 				
-				
-				
+			} else {
+				echo '<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">You must upload your Homework Document.</p>
+								<p align="center">Please upload only MS Word Documents (.doc, .docx)<br>';
+								echo 'To go back <a href="assignment_list.php?id=' . $c_id . '">Click Here</a></p>
+							</div>
+						</div>
+					</div></div>';
+					include('footer.php');
+					exit();
 			}	// End of IF:   if (is_uploaded_file($_FILES['upload']['tmp_name']))
 				
+			//exit(); // Comment out or Remove this line to proceed with Database Insertion	
 			
 			if ($file_upload) {
 				
@@ -175,7 +154,7 @@ require_once('mysqli_connect.php');
 				
 				$id = $_POST['asmnt_id'];  // received from the homework_post.php form as a hidden input
 				$usr_id = $_SESSION['user_id'];
-				$file_path = HW_DIR . DIRECTORY_SEPARATOR . $file_name;
+				$file_path = HW_DIR . '/' . $file_name;
 				
 				// Add a new record in the database for the homework document uploaded by the user (student) 
 				$q = "INSERT INTO homeworks (comments, file_path, asmnt_id, s_id) VALUES 

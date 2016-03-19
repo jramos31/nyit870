@@ -147,7 +147,7 @@ require('pagination_links.php');
 											<label>Select File:</label>
 											<input class="form-control" name="upload" type="file">
 											
-											<label><small>Select a MS Word Document (.doc, .docx) or PDF file of 524 KB or Smaller to be uploaded</small></label>
+											<label><small>Select a MS Word Document (.doc, .docx) 524 KB or Smaller to be uploaded</small></label>
 											<input name="MAX_FILE_SIZE" type="hidden" value="524288">
 																				
 											<input name="course_id" type="hidden" value="' . $id .'">
@@ -221,43 +221,7 @@ require('pagination_links.php');
 				} // END OF: Else Fetch Assignments
 				
 				
-			}  // END OF: if ($_SESSION['user_level'] is a STUDENT)
-				
-			
-		// *******  Pagination Links - Create the links to the other pages     *****************
-		/*
-		if ($pages>1) {
-				
-			echo '<p>'; 
-			
-			// Determine which page the script currently is 
-			$current_page = ($start/$display) + 1;
-			
-			// If this isnt the first page, make a link to the previous one
-			if ($current_page != 1) {
-				echo '&nbsp; &nbsp; <a href="assignment_list.php?id=' . $id . '&s=' . ($start - $display) . '&p=' . $pages . '">Previous  </a>';
-			}
-			
-			// Numbered pages 
-			for ($i = 1; $i <= $pages; $i++)  {
-				if ($i != $current_page)  {
-					
-					echo '&nbsp; &nbsp;<a href="assignment_list.php?id=' . $id . '&s=' . (($display * ($i - 1))) . '&p=' . $pages . '">' . $i . '</a>&nbsp; &nbsp;';						
-				} else {
-					echo $i . '   ';
-				}
-			}
-			
-			// If this isnt that last page, make a link to the next page 
-			if ($current_page != $pages) {
-				echo '<a href="assignment_list.php?id=' . $id . '&s=' . ($start + $display) . '&p=' . $pages . '">  Next</a>';
-			}
-			
-			echo '</p>';
-		}
-		*/	
-		// ***** END - Pagination Links   *************************************************	
-			
+			}  // END OF: if ($_SESSION['user_level'] is a STUDENT
 			
 		}  else {  // No valid course_id, kill the script
 			echo '<div class="row">
