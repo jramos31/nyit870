@@ -6,23 +6,19 @@ html {
     min-height: 100%;
  }
 
-/* Move down content because we have a fixed navbar that is 50px tall */
 body {
     padding-top: 50px;
 }
 
-/* Global add-ons */
 .sub-header {
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
 }
 
-/* Top navigation Hide default border to remove 1px line. */
 .navbar-fixed-top {
     border: 0;
 }
 
-/* Sidebar */
 .sidebar {
     display: none;
 }
@@ -77,8 +73,6 @@ body {
     margin-top: 0;
 }
 
-
-/* Placeholder dashboard ideas */
 .placeholders {
     margin-bottom: 30px;
     text-align: center;
@@ -95,10 +89,9 @@ body {
     height:200px;
 }
 
-/* Footer */
 footer {
     text-align: center;
-    position: absolute;
+    position: static;
     padding: 25px 0 5px 0;
     bottom: 0;
     width: 100%;
