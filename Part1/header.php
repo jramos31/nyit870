@@ -47,14 +47,23 @@ session_start();
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
+                <!--<div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
                         <li><a href="index.php">Home</a></li>
                         <li><a href="#">Announcements</a></li>
                         <li><a href="#">To-Do List</a></li>
                         <li><a href="#">Address Book</a></li>
                         <li><a href="#">Calendar</a></li>
-                        <li><a href="view_my_info.php">My Info</a></li>
+                        <li><a href="view_my_info.php">My Info</a></li> -->
+                        <aside class="sidebar-left">
+                		<a class="company-logo" href="#">Logo</a>
+                    		<div class="sidebar-links">
+                    			<a class="link-blue" href="#"><i class="fa fa-picture-o"></i>Photography</a>
+                    			<a class="link-red" href="#"><i class="fa fa-heart-o"></i>Favorites</a>
+                    			<a class="link-yellow selected" href="#"><i class="fa fa-keyboard-o"></i>Projects</a>
+                    			<a class="link-green" href="#"><i class="fa fa-map-marker"></i>Places</a>
+                    		</div>
+                	   </aside>
                         <?php
                         if (isset($_SESSION['user_id'])) {  // User is logged in
 
@@ -82,7 +91,7 @@ session_start();
                               <li><a href="">Retrieve Password</a></li>';
                         }
                         ?>
-                    </ul>
+                    <!--</ul> -->
                 </div>
             </div>
-        </div>  
+        </div>
