@@ -9,11 +9,11 @@ include('header.php');
             <h1 class="page-header">Homeboard</h1>
             <?php
             // Welcome the user (welcome them by name if they're logged in)
-            echo '<p><h4>Welcome';
+            echo '<p><h3>Logged in as: ';
             if (isset($_SESSION['first_name'])) {
                 echo ", {$_SESSION['first_name']}";
             }
-            echo '!</h4></p>';
+            echo '</h3></p>';
             ?>
             <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">

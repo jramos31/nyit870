@@ -16,7 +16,7 @@ session_start();
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <!-- Custom styles for this template -->
         <link href="style.css" rel="stylesheet">
-        
+
     </head>
     <body>
         <div class="container-fluid">
@@ -25,9 +25,6 @@ session_start();
                     <a class="company-logo" href="index.php">D-J</a>
                     <div class="sidebar-links">
                         <a href="index.php">Home</a>
-                        <a href="view_my_info.php"></i>My Info</a>
-                        <a href="#">Calendar</a>
-                        <a href="#">Announcements</a>
                         <?php
                         if (isset($_SESSION['user_id'])) {  // User is logged in
 
@@ -55,6 +52,9 @@ session_start();
                               <a href="">Retrieve Password</a>';
                         }
                         ?>
+                        <a href="view_my_info.php"></i>My Info</a>
+                        <a href="#">Calendar</a>
+                        <a href="#">Announcements</a>
                     </div>
                 </aside>
             </div>

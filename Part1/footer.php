@@ -5,13 +5,12 @@ ob_end_flush();
         <footer>
             <p>
                 <a href="https://www.facebook.com/mynyit/">
-                    <img src='http://icons.iconarchive.com/icons/sicons/basic-round-social/512/facebook-icon.png' alt="facebook">
+                    <img class="pull-right" src='https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-512.png' alt="facebook">
                 </a>
                 <a href="https://www.instagram.com/nyit_photos/?hl=en">
-                    <img src='https://www.seeklogo.net/wp-content/uploads/2015/08/instagram-icon-circle-vector-logo.png' alt="instagram">
+                    <img class="pull-right" src='https://m2.behance.net/rendition/pm/10442017/disp/cff767b5933daf401cf0f21e64acd63a.png' alt="instagram">
                 </a>
             </p>
-            <p>Copyright &copy; 2016 D&J Blackboard.</p>
             <p>Created by Dickson Porras and Jean Ramos.</p>
         </footer>
 
