@@ -11,7 +11,7 @@ include('header.php');
             // Welcome the user (welcome them by name if they're logged in)
             echo '<p><h3>Logged in as: ';
             if (isset($_SESSION['first_name'])) {
-                echo ", {$_SESSION['first_name']}";
+                echo " {$_SESSION['first_name']}";
             }
             echo '</h3></p>';
             ?>

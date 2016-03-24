@@ -25,6 +25,9 @@ session_start();
                     <a class="company-logo" href="index.php">D-J</a>
                     <div class="sidebar-links">
                         <a href="index.php">Home</a>
+                        <a href="#">Announcements</a>
+                        <a href="#">Calendar</a>
+                        <a href="view_my_info.php"></i>My Info</a>
                         <?php
                         if (isset($_SESSION['user_id'])) {  // User is logged in
 
@@ -52,9 +55,6 @@ session_start();
                               <a href="">Retrieve Password</a>';
                         }
                         ?>
-                        <a href="view_my_info.php"></i>My Info</a>
-                        <a href="#">Calendar</a>
-                        <a href="#">Announcements</a>
                     </div>
                 </aside>
             </div>
