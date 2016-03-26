@@ -24,10 +24,8 @@ session_start();
                 <aside class="sidebar-left">
                     <a class="company-logo" href="index.php">D-J</a>
                     <div class="sidebar-links">
-                        <a href="index.php">Home</a>
-                        <a href="#">Announcements</a>
-                        <a href="#">Calendar</a>
-                        <a href="view_my_info.php"></i>My Info</a>
+						<a href="index.php">Home</a>
+						<a href="#">Calendar</a>							  
                         <?php
                         if (isset($_SESSION['user_id'])) {  // User is logged in
 
@@ -35,22 +33,28 @@ session_start();
                               <a href="change_password.php">Change Password</a>';
 
                         if ($_SESSION['user_level'] == '0') { // User is Student
-                        echo '<a href="#">Student Options <span class="sr-only">(current)</span></a>
+						$id = $_SESSION['user_id'];
+						echo '<a href="#">Student Options <span class="sr-only">(current)</span></a>
+							  <a href="announcement_list_all.php?id=' . $id . '">Announcements</a>
                               <a href="view_grades.php">My Grades</a>
                               <a href="view_courses.php">My Courses</a>';
                         }
 
                         if ($_SESSION['user_level'] == '1') { // User is Professor/Faculty
-                        echo '<a href="view_courses.php">My Courses</a>
+                        echo '<a href="#">Professor/Faculty Options <span class="sr-only">(current)</span></a>
+							  <a href="view_courses.php">My Courses</a>
                               <a href="">Faculty Link 2</a>';
                         }
 
                         if ($_SESSION['user_level'] == '2') { // User is Administrator
-                        echo '<a href="view_users.php">View All Users</a>
+                        echo '<a href="#">Administrator Options <span class="sr-only">(current)</span></a>
+							  <a href="view_users.php">View All Users</a>
                               <a href="">Other Admin Stuff</a>';
                         }
                         } else {  // User Not Logged In
-                        echo '<a href="register.php">Register</a>
+                        echo '<a href="announcement_list_all.php">Announcements</a>
+							  <a href="view_my_info.php"></i>My Info</a>
+							  <a href="register.php">Register</a>
                               <a href="login.php">Login</a>
                               <a href="">Retrieve Password</a>';
                         }
