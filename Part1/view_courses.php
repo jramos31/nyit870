@@ -33,7 +33,7 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 
 	if ($num > 0) {  // Rows were returned
 
-		echo 'echo <!--  ****** Start of Page Content ******  -->
+		echo '<!--  ****** Start of Page Content ******  -->
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h3 class="sub-header"><p>' . $fn . ' ' . $ln. '\'s Courses</h3>
 			<div class="table-responsive">
@@ -109,6 +109,7 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 					// Table Header
 					echo '<thead>
 						<tr>
+							<th>Grades</th>
 							<th>Announcements</th>
 							<th>Assignments</th>
 							<th>Course</th>
@@ -122,6 +123,7 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 					// Display the records in the table body
 					while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 						echo '<tr>
+							<td><a href="student_list.php?id=' . $row['course_id'] . '">Grades</a></td>							
 							<td><a href="announcement_list.php?id=' . $row['course_id'] . '">Announcements</a></td>
 							<td><a href="assignment_list.php?id=' . $row['course_id'] . '">Assignments</a></td>
 							<td>' . $row['course_num'] . '</td>

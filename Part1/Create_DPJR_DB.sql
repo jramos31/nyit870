@@ -162,6 +162,7 @@ INSERT INTO students (user_id, course_id) VALUES
 # Create and populate the homeworks table
 # ** NOTE: 
 #    - This table contain the file path to the homework documents submitted by Student-users. 
+#    - This table will also hold the numerical grade awarded for the submitted assignment .
 #    - It contains Foreign Keys the students and assignments. 
 #    - There is no need to directly reference the courses table since the students and assignments
 #      tables both have the Foreign Key 'course_id' referencing that table.
@@ -170,6 +171,7 @@ CREATE TABLE homeworks (
 hw_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 comments VARCHAR(120) NULL,
 file_path VARCHAR(100) NOT NULL,
+grade TINYINT UNSIGNED NULL,
 asmnt_id INT UNSIGNED NOT NULL,
 s_id INT UNSIGNED NOT NULL,
 PRIMARY KEY(hw_id),
