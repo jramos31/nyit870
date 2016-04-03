@@ -1,41 +1,99 @@
 <?php
-// *** Main page for the site  ***
+// Include the confuration and header
+require("config.inc.php");
+include("header.php"); ?>
 
-// Include the configuration and header files
-require('config.inc.php');
-include('header.php');
-?>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Homeboard</h1>
-            <?php
-            // Welcome the user (welcome them by name if they're logged in)
-            echo '<p><h3>Logged in as: ';
-            if (isset($_SESSION['first_name'])) {
-                echo " {$_SESSION['first_name']}";
-            }
-            echo '</h3></p>';
-            ?>
-            <div class="row placeholders">
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/advertising.png" class="img-responsive" alt="Anouncement Image">
-					<?php if ( isset($_SESSION['user_id'])  && ($_SESSION['user_level'] == '0') ){  // User must be a student that's logged in
-						echo '<h4><a href="announcement_list_all.php?id= '. $_SESSION['user_id'] . '">Announcements</a></h4>';
-					} else {
-						echo '<h4>Announcements</h4>';
-					} ?>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <a href="view_courses.php"><img src="http://104.236.10.194/wp-content/uploads/2015/08/Test-1.jpg1.png" class="img-responsive" alt="Courses Image"></a>
-                    <h4><a href="view_courses.php">Courses</a></h4>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="http://www.devopstesting.com/wp-content/uploads/2014/08/Software-Testing-Services.png" class="img-responsive" alt="Online Exam Image">
-                    <h4>Online Exams</h4>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <a href="view_grades.php"><img src="http://manch.co.in/site_media/img/homepage/test-prep-icon.png" class="img-responsive" alt="Grades Image"></a>
-                    <h4><a href="view_grades.php">Grades</a></h4>
-                </div>
-            </div>
-        </div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+		<?php //**** Handles the email and password entry ****
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+			require(MYSQL_CONN);
+
+			// Validate user's email address
+			if (!empty($_POST['email'])) {
+				$email = mysqli_real_escape_string($dbc, $_POST['email']);
+			} else {
+				$email = FALSE;
+				echo '<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">You forgot to enter your email address!</p>
+							</div>
+						</div>
+					</div>';
+			}
+
+			// Validate user's password
+			if (!empty($_POST['pass'])) {
+				$pw = mysqli_real_escape_string($dbc, $_POST['pass']);
+			} else {
+				$pw = FALSE;
+				echo '<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">You forgot to enter your password!</p>
+							</div>
+						</div>
+					</div>';
+			}
+
+			// If both are valid
+			if ($email && $pw) {
+
+				// Query database
+				$q = "SELECT user_id, first_name, last_name, user_level FROM users WHERE (email='$email' AND pass=SHA1('$pw')) AND active IS NULL";
+				$r = mysqli_query($dbc, $q) or trigger_error("Query: $q\n<br />MySQL Error: " . mysqli_error($dbc));
+
+				// If the user was found in the database
+				if (@mysqli_num_rows($r) == 1) {
+
+					$_SESSION = mysqli_fetch_array($r, MYSQLI_ASSOC);
+					mysqli_free_result($r);
+					mysqli_close($dbc);
+
+					// Redirect user to the home page
+					$url = BASE_URL . 'index.php';
+					ob_end_clean();
+					header("Location: hboard.php");
+					exit();
+
+				} else {  // No match found in database!
+					echo '<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">Either email address or password do not match those on file or you need to activate your account.</p>
+							</div>
+						</div>
+					</div>';
+				}
+			} else {
+				echo '<p>Please try again!</p>';
+			}
+		}
+		?>
+
+			<h1 class="page-header">Welcome</h1>
+			<div class="col-md-4 col-md-offset-4">
+				<div class="login-panel panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Please Sign In</h3>
+					</div>
+					<div class="panel-body">
+						<form role="form" action="login.php" method="post">
+							<div class="form-group">
+									<input class="form-control" placeholder="E-mail" name="email" type="email" value="">
+								</div>
+								<div class="form-group">
+									<input class="form-control" placeholder="Password" name="pass" type="password" value="">
+								</div>
+
+								<input type="submit" name="submit" value="Login" class="btn btn-lg btn-success btn-block" >                    </fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div> <!-- END OF <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> -->
+
+
 <?php include('footer.php'); ?>

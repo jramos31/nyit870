@@ -5,7 +5,7 @@
 define('EMAIL', 'dicksonporras@gmail.com');
 
 // Site URL, the root domain for this development site
-define('BASE_URL', 'http://localhost:8080/CSCI870/Part1/');
+define('BASE_URL', 'http://localhost:8080/');
 
 // Location of where students' homework files are uploaded to
 define('HW_DIR', 'uploads_homeworks');											  // The Directory              -  Relative Path

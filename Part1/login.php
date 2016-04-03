@@ -55,7 +55,7 @@ include("header.php"); ?>
 					// Redirect user to the home page
 					$url = BASE_URL . 'index.php';
 					ob_end_clean();
-					header("Location: $url");
+					header("Location: hboard.php");
 					exit();
 
 				} else {  // No match found in database!
