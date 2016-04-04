@@ -192,6 +192,10 @@ nav#mainnav li a {
     margin-top: 60px;
 }
 
+article#login {
+    padding: 10px 10px 360px;
+}
+
 article {
     padding: 10px 10px 30px;
     font-size: 1.2em;

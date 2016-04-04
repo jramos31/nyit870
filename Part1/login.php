@@ -4,7 +4,7 @@ require("config.inc.php");
 include("header.php"); ?>
 
 		<section id="content">
-   			<article>
+   			<article id="login">
 				<?php //**** Handles the email and password entry ****
 					if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
