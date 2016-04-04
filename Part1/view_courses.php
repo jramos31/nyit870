@@ -34,7 +34,8 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 	if ($num > 0) {  // Rows were returned
 
 		echo '<!--  ****** Start of Page Content ******  -->
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		<section id="content">
+		   <article>
 			<h3 class="sub-header"><p>' . $fn . ' ' . $ln. '\'s Courses</h3>
 			<div class="table-responsive">
 				<table class="table table-striped">';
@@ -68,13 +69,14 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 					echo '</tbody>
 				</table>
 			</div>
-		</div>';
+		</article>';
 		mysqli_free_result($r);
 
 	} else {  // No rows returned
 
 		echo '<!--  ****** Start of Page Content ******  -->
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		<section id="content">
+		   <article>
 			<h1 class="page-header">My Courses</h1><br />
 
 			<div class="row">
@@ -82,7 +84,7 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 					<div class="alert alert-warning"><p align="center">You are not currently enrolled in any courses!</p></div>
 				</div>
 			</div>
-		</div>';
+		</article>';
 	}
 
 } elseif ($_SESSION['user_level'] == '1') { // User is Professor
@@ -101,7 +103,8 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 	if ($num > 0) {  // Rows were returned
 
 		echo 'echo <!--  ****** Start of Page Content ******  -->
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		<section id="content">
+		   <article>
 			<h3 class="sub-header"><p>Professor ' . $ln. '\'s Courses</h3>
 			<div class="table-responsive">
 				<table class="table table-striped">';
@@ -123,7 +126,7 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 					// Display the records in the table body
 					while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 						echo '<tr>
-							<td><a href="student_list.php?id=' . $row['course_id'] . '">Grades</a></td>							
+							<td><a href="student_list.php?id=' . $row['course_id'] . '">Grades</a></td>
 							<td><a href="announcement_list.php?id=' . $row['course_id'] . '">Announcements</a></td>
 							<td><a href="assignment_list.php?id=' . $row['course_id'] . '">Assignments</a></td>
 							<td>' . $row['course_num'] . '</td>
@@ -137,7 +140,7 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 					echo '</tbody>
 				</table>
 			</div>
-		</div>';
+		</article>';
 		mysqli_free_result($r);
 
 	} else { // No rows were returned
