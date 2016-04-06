@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id'])) {   // User not logged in
 	?>
 				<!--  ****** Start of Page Content ******  -->
 				<section id="content">
-				   <article>
+				   <article id="login">
 					<h1 class="page-header">View Student Grades</h1><br />
 					<?php
 					if (isset($_SESSION['user_level'])) {

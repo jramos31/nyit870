@@ -20,7 +20,7 @@ include('header.php');
                     <div class="col-xs-6 col-sm-3 placeholder">
                         <img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/advertising.png" class="img-responsive" alt="Anouncement Image">
                         <?php if ( isset($_SESSION['user_id'])  && ($_SESSION['user_level'] == '0') ){  // User must be a student that's logged in
-	                           echo '<a href="announcement_list_all.php class="button button reversed"?id='. $_SESSION['user_id'] . '">ANNOUNCEMENTS</a>';
+	                           echo '<a href="announcement_list_all.php?id= '. $_SESSION['user_id'] . '">ANNOUNCEMENTS</a>';
                            } else {
 	                           echo '<a href="announcement_list_all.php" class="button button-reversed">ANNOUNCEMENTS</a>';
                         }

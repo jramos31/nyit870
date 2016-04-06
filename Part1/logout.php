@@ -22,7 +22,7 @@ if (!isset($_SESSION['first_name'])) {
 include("header.php");  // include the header again to display the modified links
 echo '
 		<section id="content">
-   			<article>
+   			<article id="login">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="alert alert-success"><h3 align="center">You have been logged out.</h3></div>

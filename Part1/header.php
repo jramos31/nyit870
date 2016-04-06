@@ -44,6 +44,7 @@ session_start();
                             }
 
                             if ($_SESSION['user_level'] == '1') { // User is Professor/Faculty
+                            $id = $_SESSION['user_id'];
                             echo '
                                 <li><a href="announcement_list_all.php?id=' . $id . '">Announcements</a></li>
                                 <li><a href="view_grades.php">Student Grades</a></li>
@@ -55,10 +56,13 @@ session_start();
                             }
 
                             if ($_SESSION['user_level'] == '2') { // User is Administrator
+                            $id = $_SESSION['user_id'];
                             echo '
                                 <li><a href="#">Administrator Options <span class="sr-only">(current)</span></a></li>
     							<li><a href="view_users.php">View All Users</a></li>
-                                <li><a href="">Other Admin Stuff</a></li>';
+                                <li><a href="">Other Admin Stuff</a></li>
+                                <li><a href="change_password.php">Change Password</a></li>
+                                <li><a href="logout.php">Logout</a></li>';
                             }
                             } else {  // User Not Logged In
                             echo '
