@@ -59,7 +59,7 @@ require('pagination_links.php');
 					// The function is defined in pagination_links.php
 					show_page_links($pages, $display, $start, $id, "student_list");
 
-					// Build the retrieval query
+					// Build the retrieval query  - get list of students in this course
 					$q = "SELECT users.user_id, CONCAT(users.first_name, ' ', users.last_name) AS student_name,
 									CONCAT(courses.course_num, ' ', courses.course_title, ' - ', courses.section_num) AS my_course, courses.semester
 							FROM users
@@ -77,34 +77,98 @@ require('pagination_links.php');
 						</div>';
 					} else { // Fetch students
 
-						echo '<div class="row">
-							<div class="col-lg-12">';
+						// Get a count of the homework assignments for the course
+						$q_asn_count = "SELECT COUNT(*) FROM assignments WHERE course_id=$id";
+						$r_asn_count = @mysqli_query($dbc, $q_asn_count);					
+						$row = @mysqli_fetch_array($r_asn_count, MYSQLI_NUM);
+						$asn_count = $row[0];
+						
+						
+						if (!($asn_count > 0)) {		// No assignments
+							echo '<div class="row">
+								<div class="col-lg-12">
+									<div class="alert alert-warning"><p align="center">There are no assignments for this course.</p></div>
+								</div>
+							</div>';
+						} else {
+							// ######  START DEBUG  											
+							echo $q_asn_count . '<br>';
+							echo "ASSIGNMENT COUNT = " . $asn_count;
+							//exit();
+							// ###### END DEBUG
+							
+							echo '<div class="row">
+								<div class="col-lg-12">';
 
 
-						$course_printed = FALSE;  // Set this flag to false because the top of the table needs to printed only once
+							$course_printed = FALSE;  // Set this flag to false because the top of the table needs to printed only once
 
 
-						while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
+							while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
+								
+								// Get the grades for the submitted homework assignments
+								$q_hw_grade = "SELECT a.asmnt_id, a.asmnt_title, a.content, h.hw_id, h.s_id, h.comments, h.file_path, h.grade
+													FROM assignments AS a
+													INNER JOIN homeworks AS h USING(asmnt_id)
+													WHERE a.course_id=$id AND h.s_id=" . $row['user_id'] . "
+													ORDER BY a.asmnt_id";
+								$r_hw_grade = @mysqli_query($dbc, $q_hw_grade);
+								
+								// DEBUG
+								echo "<br>QUERY: " . $q_hw_grade . "<br>STUDENT USER ID: " . $row['user_id'];
+								//exit();		
+								// END  DEBUG
 
-							if (!$course_printed) {
+								if (!$course_printed) {
 
-								echo '<h3>' . $row['my_course'] . '&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;' . $row['semester'] . '</h3><br>';
-								echo '<div class="table-responsive">
+									echo '<h3>' . $row['my_course'] . '&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;' . $row['semester'] . '</h3><br>';
+									/*echo '<div class="table-responsive">
 									<table class="table table-striped">
-									<thead><tr><th></th><th></th></tr></thead>
-									<tbody>';
-								$course_printed = TRUE;
-							}
+									<thead><tr><th>Student Name</th><th></th></tr></thead>
+									<tbody>';  */
+									echo '<div class="table-responsive">
+									<table class="table table-striped">
+									<thead><tr><th>Student Name</th>';
+									$index=0;
+									while($index < $asn_count){
+										echo '<th>HW ' . ($index + 1) . '</th>';
+										$index++;
+									}								
+									echo '<th>AVG</th></tr></thead>
+									<tbody>';	
+									$course_printed = TRUE;
+								}
 
-							// Display the students
-							echo '<tr>
-								<td>' . $row['student_name'] . '</td>
-								<td><a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '">View Grades</a></td>
-							</tr>';
-
-						} // END WHILE
-						echo '</tbody>
-						</table></div></div>';
+								// Display the students and grades for all homework assignments
+								// echo '<tr>
+									// <td>' . $row['student_name'] . '</td>
+									// <td><a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '">View Grades</a></td>
+								// </tr>';
+								
+								echo '<tr>
+									<td>' . $row['student_name'] . '</td>';
+									$index = 0;
+									while ($index < $asn_count) {
+										while ($row_grades = mysqli_fetch_array($r_hw_grade, MYSQLI_ASSOC)) {
+										
+											if ($row_grades['grade'] == NULL) {
+												echo '<td>INDEX#' . $index . ' No Grade</td>';		// *********** FOR DEBUGGING
+											} else if (is_numeric($row_grades['grade'])) {
+												echo '<td>INDEX#' . $index . ' ' . $row_grades['grade'] . '</td>';		// ***********  FOR DEBUGGING
+											}
+											$index++;
+										}
+										$index++;	
+										echo '<td>INDEX#' . $index . ' Incomplete</td>';				// ********* FOR DEBUGGING						
+										//$index++;										
+									}
+								echo '<td>INDEX#' . $index . ' Avg Val</td></tr>';
+							
+							} // END OF MAIN WHILE
+						
+							echo '</tbody>
+							</table></div></div>';
+						} // END OF    if (!($asn_count > 0)) 		// No assignments
 					} // END OF:    if ( !(mysqli_num_rows($r)>0) )
 
 

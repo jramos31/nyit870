@@ -112,29 +112,27 @@ include('header.php');
 
         			$row = mysqli_fetch_array($r, MYSQLI_NUM);
 
-        			echo <<<EOT
-        				<div class="panel panel-default">
+        			echo '<div class="panel panel-default">
         					<div class="panel-heading"><h3 class="panel-title">Edit User Info</h3>
                             </div>
         					<div class="panel-body">
         						<form role="form" action="edit_user.php" method="post">
         							<div class="form-group">
         								<input class="form-control" placeholder="First Name" type="text"
-        									name="first_name" size="20" maxlength="20" value="$row[0]">
+        									name="first_name" size="20" maxlength="20" value="' . $row[0] . '">
         								<br>
         								<input class="form-control" placeholder="Last Name" type="text"
-        									name="last_name" size="20" maxlength="40" value="$row[1]">
+        									name="last_name" size="20" maxlength="40" value="' . $row[1] . '">
         								<br>
         								<input class="form-control" placeholder="Email" type="email"
-        									name="email" size="30" maxlength="60" value="$row[2]">
+        									name="email" size="30" maxlength="60" value="' . $row[2] . '">
         								<br>
         							</div>
         							<input class="btn btn-lg btn-success btn-block" type="submit" name="submit" value="Submit" >
-        							<input type="hidden" name="id" value="$id" >
+        							<input type="hidden" name="id" value="' . $id . '" >
         						</form>
         					</div>
-        				</div>
-        EOT;
+        				</div>';
 
         		} else {  // User id was not valid
         			echo '<div class="row">

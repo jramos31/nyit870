@@ -34,131 +34,254 @@ if (!isset($_SESSION['user_id'])) {
 				if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) {
 
 					$id = $_GET['id'];
+					
+					if ($_SESSION['user_level'] == '0') { // User is student
+						// ****   Setup Pagination   ****
+						$display = 5;  // Limit the number of records shown on each page
 
-					// ****   Setup Pagination   ****
-					$display = 5;  // Limit the number of records shown on each page
+						// Number of pages
+						if (isset($_GET['p']) && is_numeric($_GET['p'])) {  // Determined
 
-					// Number of pages
-					if (isset($_GET['p']) && is_numeric($_GET['p'])) {  // Determined
+							$pages = $_GET['p'];
 
-						$pages = $_GET['p'];
+						} else {		// Need to determine
 
-					} else {		// Need to determine
+							// Get a count of the number of records
 
-						// Get a count of the number of records
+							$q = "SELECT COUNT(*)
+									FROM announcements AS a
+									INNER JOIN courses AS c USING(course_id)
+									INNER JOIN students AS s USING(course_id)
+									WHERE s.user_id=$id";
+							$r = @mysqli_query($dbc, $q);
+							$row = @mysqli_fetch_array($r, MYSQLI_NUM);
+							$records = $row[0];
 
-						$q = "SELECT COUNT(*)
+							// Calculate number of pages
+							if ($records > $display) {  // More than 1 page
+								$pages = ceil($records/$display);
+							} else {
+								$pages = 1;
+							}
+						}
+
+						// Determine starting point of the results
+						if (isset($_GET['s']) && is_numeric($_GET['s'])) {
+							$start = $_GET['s'];
+						} else {
+							$start = 0;
+						}
+
+						// **** End - Setup Pagination  ****************
+
+						// The function is defined in pagination_links.php
+						show_page_links($pages, $display, $start, $id, "announcement_list_all");
+
+						// Build the query
+						$q = "SELECT a.subject, a.content, a.file_path, a.date_posted, c.course_num, c.course_title, c.section_num
 								FROM announcements AS a
 								INNER JOIN courses AS c USING(course_id)
 								INNER JOIN students AS s USING(course_id)
-								WHERE s.user_id=$id";
-						$r = @mysqli_query($dbc, $q);
-						$row = @mysqli_fetch_array($r, MYSQLI_NUM);
-						$records = $row[0];
+								WHERE s.user_id = $id
+								ORDER BY a.date_posted DESC
+								LIMIT $start, $display";
+						$r = mysqli_query($dbc, $q);
 
-						// Calculate number of pages
-						if ($records > $display) {  // More than 1 page
-							$pages = ceil($records/$display);
-						} else {
-							$pages = 1;
-						}
-					}
+						if (!(mysqli_num_rows($r)>0)) { // No announcements
+							echo '<div class="row">
+								<div class="col-lg-12">
+									<div class="alert alert-warning"><p align="center">No announcements listed.</p></div>
+								</div>
+							</div>';
+						} else { // Fetch announcements
 
-					// Determine starting point of the results
-					if (isset($_GET['s']) && is_numeric($_GET['s'])) {
-						$start = $_GET['s'];
-					} else {
-						$start = 0;
-					}
+							echo '<div class="row">
+								<div class="col-lg-12">';
 
-					// **** End - Setup Pagination  ****************
+							while ($messages = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 
-					// The function is defined in pagination_links.php
-					show_page_links($pages, $display, $start, $id, "announcement_list_all");
+								// Display the message
+								echo "<p><b>Course:</b> &nbsp; &nbsp; &nbsp; {$messages['course_num']} {$messages['course_title']} {$messages['section_num']}<br>
+										 <b>Date:</b> &nbsp; &nbsp; &nbsp; {$messages['date_posted']}<br>
+										 <b>Subject:</b> &nbsp; {$messages['subject']}<br>
+										 <b>Message:</b> &nbsp; {$messages['content']}<br>";
+								if ( !($messages['file_path'] == NULL) ) {
+										// if instructor uploaded a document associated with the assignment,
+										// display the link to that document
+										echo "<b>Document:</b> &nbsp; <a href=\"{$messages['file_path']}\">Click Here</a></p><br>";
+								} else {
+										echo "</p><br>";
+								}
+							} // END WHILE
+							echo '</div></div>';
 
-					// Build the query
-					$q = "SELECT a.subject, a.content, a.file_path, a.date_posted, c.course_num, c.course_title, c.section_num
-							FROM announcements AS a
-							INNER JOIN courses AS c USING(course_id)
-							INNER JOIN students AS s USING(course_id)
-							WHERE s.user_id = $id
-							ORDER BY a.date_posted DESC
-							LIMIT $start, $display";
-					$r = mysqli_query($dbc, $q);
-
-					if (!(mysqli_num_rows($r)>0)) { // No announcements
-						echo '<div class="row">
-							<div class="col-lg-12">
-								<div class="alert alert-warning"><p align="center">No announcements listed.</p></div>
-							</div>
-						</div>';
-					} else { // Fetch announcements
-
-						echo '<div class="row">
-							<div class="col-lg-12">';
-
-						while ($messages = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
-
-							// Display the message
-							echo "<p><b>Course:</b> &nbsp; &nbsp; &nbsp; {$messages['course_num']} {$messages['course_title']} {$messages['section_num']}<br>
-									 <b>Date:</b> &nbsp; &nbsp; &nbsp; {$messages['date_posted']}<br>
-							         <b>Subject:</b> &nbsp; {$messages['subject']}<br>
-									 <b>Message:</b> &nbsp; {$messages['content']}<br>";
-							if ( !($messages['file_path'] == NULL) ) {
-									// if instructor uploaded a document associated with the assignment,
-									// display the link to that document
-									echo "<b>Document:</b> &nbsp; <a href=\"{$messages['file_path']}\">Click Here</a></p><br>";
-							} else {
-									echo "</p><br>";
-							}
-						} // END WHILE
-						echo '</div></div>';
-
-					} // END OF:    if ( !(mysqli_num_rows($r)>0) )
-
+						} // END OF:    if ( !(mysqli_num_rows($r)>0) )
+					} //  END OF: if ($_SESSION['user_level'] == '0')  ---- User is student
+						
 					// Professor will also be able to post new course announcements
 					// uploading documents pertaining to announcements is optional
 					// *** Show the form ***
 					if ($_SESSION['user_level'] == '1') {
-						echo '<div class="row">
-							<div class="col-md-6 col-md-offset-2">
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h3 class="panel-title">Post New Announcement</h3>
+												
+						// ****   Setup Pagination   ****
+						$display = 5;  // Limit the number of records shown on each page
+
+						// Number of pages
+						if (isset($_GET['p']) && is_numeric($_GET['p'])) {  // Determined
+
+							$pages = $_GET['p'];
+
+						} else {		// Need to determine
+
+							// Get a count of the number of records
+
+							$q = "SELECT COUNT(*)
+									FROM announcements AS a
+									INNER JOIN courses AS c USING(course_id)
+									WHERE c.prof_id=$id";
+							$r = @mysqli_query($dbc, $q);
+							$row = @mysqli_fetch_array($r, MYSQLI_NUM);
+							$records = $row[0];
+
+							// Calculate number of pages
+							if ($records > $display) {  // More than 1 page
+								$pages = ceil($records/$display);
+							} else {
+								$pages = 1;
+							}
+						}
+
+						// Determine starting point of the results
+						if (isset($_GET['s']) && is_numeric($_GET['s'])) {
+							$start = $_GET['s'];
+						} else {
+							$start = 0;
+						}
+
+						// **** End - Setup Pagination  ****************
+
+						// The function is defined in pagination_links.php
+						show_page_links($pages, $display, $start, $id, "announcement_list_all");
+						
+						
+						// ####  Posting a new announcement   ############
+						// Need to query to load the drop down list with the teacher's courses 
+						$q = "SELECT c.course_id, CONCAT(c.course_num, ' ', c.course_title, ' - ', c.section_num) AS course_name
+									  FROM courses AS c WHERE c.prof_id=$id";
+						$r = @mysqli_query($dbc, $q);
+
+						if (!(mysqli_num_rows($r)>0)) { // No results
+								echo '<div class="row">
+									<div class="col-lg-12">
+										<div class="alert alert-warning"><p align="center">There are no courses listed for you.</p></div>
 									</div>
-									<div class="panel-body">
-										<form role="form" enctype="multipart/form-data" action="announcement_post.php" method="post">
-											<div class="form-group">
-												<label>Subject:</label>
-												<input class="form-control" placeholder="Enter a subject"
-													name="subject" size="60" maxlength="100" type="text" value="">
-												<br>
-												<label>Announcement:</label>
-												<textarea class="form-control" name="body" row="3"></textarea>
-											</div>
+								</div>';
+								exit();
+						} else {
+							echo '<p>Select a course to post a new announcement:</p>
+							<form action="announcement_list_all.php?id=' . $id . '" method="post">
+								<select name="course">';
+								while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
+									echo '<option value="' . $row['course_id'] . '">' . $row['course_name'] . '</option>';
+								}
+								echo '</select>
+							<input type="submit" name="submit" value="GO">
+							</form>';
+						}
+						// Check for form submission (the Drop down list)
+						if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-											<div class="form-group">
-												<!-- instructor may upload MS Word and PDF documents if part of the assignment -->
-												<label>Upload a File (Optional)</label><br>
-												<label>Save File As:</label>
-												<input class="form-control" placeholder="New File Name"
-													name="newfilename" size="60" maxlength="100" type="text" value="">
+							if (isset($_POST['course'])) {
+								$cid = $_POST['course'];								
+							}else {
+								$_POST['course'] = '';
+							}						
+						
+							echo '<div class="row">
+								<div class="col-md-6 col-md-offset-2">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h3 class="panel-title">Post New Announcement</h3>
+										</div>
+										<div class="panel-body">
+											<form role="form" enctype="multipart/form-data" action="announcement_post.php" method="post">
+												<div class="form-group">
+													<label>Subject:</label>
+													<input class="form-control" placeholder="Enter a subject"
+														name="subject" size="60" maxlength="100" type="text" value="">
+													<br>
+													<label>Announcement:</label>
+													<textarea class="form-control" name="body" row="3"></textarea>
+												</div>
 
-												<label>Select File:</label>
-												<input class="form-control" name="upload" type="file">
+												<div class="form-group">
+													<!-- instructor may upload MS Word if part of the assignment -->
+													<label>Upload a File (Optional)</label><br>
+													<label>Save File As:</label>
+													<input class="form-control" placeholder="New File Name"
+														name="newfilename" size="60" maxlength="100" type="text" value="">
 
-												<label><small>Select a MS Word Document (.doc, .docx) or PDF file of 524 KB or Smaller to be uploaded</small></label>
-												<input name="MAX_FILE_SIZE" type="hidden" value="524288">
+													<label>Select File:</label>
+													<input class="form-control" name="upload" type="file">
 
-												<input name="course_id" type="hidden" value="' . $id .'">
+													<label><small>Select a MS Word Document (.doc, .docx) </small></label>
+													<input name="MAX_FILE_SIZE" type="hidden" value="524288">
 
-											</div>
-											<input type="submit" name="submit" value="Submit" class="btn btn-lg btn-success btn-block">
-										</form>
+													<input name="course_id" type="hidden" value="' . $id .'">
+
+												</div>
+												<input type="submit" name="submit" value="Submit" class="btn btn-lg btn-success btn-block">
+											</form>
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>';
+							</div>';
+						}
+						// ####  END OF: Posting a new announcement   ############
+						
+						
+						
+						
+						// Build the query to display all posted announcements
+						$q = "SELECT a.ann_id, a.subject, a.content, a.file_path, a.date_posted, c.course_num, c.course_title, c.section_num
+								FROM announcements AS a
+								INNER JOIN courses AS c USING(course_id)
+								WHERE c.prof_id = $id
+								ORDER BY a.date_posted DESC
+								LIMIT $start, $display";
+						$r = mysqli_query($dbc, $q);
+
+						if (!(mysqli_num_rows($r)>0)) { // No announcements
+							echo '<div class="row">
+								<div class="col-lg-12">
+									<div class="alert alert-warning"><p align="center">No announcements listed.</p></div>
+								</div>
+							</div>';
+						} else { // Fetch announcements
+
+							echo '<div class="row">
+								<div class="col-lg-12">';
+
+							while ($messages = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
+
+								// Display the message
+								echo "<p><a href=\"delete_announcement.php?id={$messages['ann_id']}\"><b>Delete This Announcement</b></a><br>
+										 <b>Course:</b> &nbsp; &nbsp; &nbsp; {$messages['course_num']} {$messages['course_title']} {$messages['section_num']}<br>
+										 <b>Date:</b> &nbsp; &nbsp; &nbsp; {$messages['date_posted']}<br>
+										 <b>Subject:</b> &nbsp; {$messages['subject']}<br>
+										 <b>Message:</b> &nbsp; {$messages['content']}<br>";
+								if ( !($messages['file_path'] == NULL) ) {
+										// if instructor uploaded a document associated with the assignment,
+										// display the link to that document
+										echo "<b>Document:</b> &nbsp; <a href=\"{$messages['file_path']}\">Click Here</a></p><br>";
+								} else {
+										echo "</p><br>";
+								}
+							} // END WHILE
+							echo '</div></div>';
+
+						} // END OF:    if ( !(mysqli_num_rows($r)>0) )
+							
 					}
 
 				}  else {  // No valid course_id, kill the script

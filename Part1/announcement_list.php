@@ -59,7 +59,7 @@ require('pagination_links.php');
             			show_page_links($pages, $display, $start, $id, "announcement_list");
 
             			// Build the query
-            			$q = "SELECT a.subject, a.content, a.file_path, a.date_posted, c.course_num, c.course_title, c.section_num
+            			$q = "SELECT a.ann_id, a.subject, a.content, a.file_path, a.date_posted, c.course_num, c.course_title, c.section_num
             			      FROM announcements AS a INNER JOIN courses AS c ON a.course_id=c.course_id
             				  WHERE c.course_id=$id
             				  ORDER BY a.date_posted DESC LIMIT $start, $display";
@@ -88,9 +88,12 @@ require('pagination_links.php');
             					}
 
             					// Display the message
-            					echo "<p><b>Date:</b> &nbsp; &nbsp; &nbsp; {$messages['date_posted']}<br>
-            					         <b>Subject:</b> &nbsp; {$messages['subject']}<br>
-            							 <b>Message:</b> &nbsp; {$messages['content']}<br>";
+            					echo "<p>";
+								// Students can not delete announcements, but teachers can
+								if ($_SESSION['user_level'] == '1') { echo "<a href=\"delete_announcement.php?id={$messages['ann_id']}\"><b>Delete This Announcement</b></a><br>";}
+								echo "<b>Date:</b> &nbsp; &nbsp; &nbsp; {$messages['date_posted']}<br>
+								<b>Subject:</b> &nbsp; {$messages['subject']}<br>
+								<b>Message:</b> &nbsp; {$messages['content']}<br>";
             					if ( !($messages['file_path'] == NULL) ) {
             							// if instructor uploaded a document associated with the assignment,
             							// display the link to that document
