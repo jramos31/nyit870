@@ -113,18 +113,19 @@ if (!isset($_SESSION['user_id'])) {   // User not logged in
 							} // END OF: if user is a student
 
 							if ($_SESSION['user_level'] == '1') {	// User is Professor/Faculty
-								// Receive valid student User ID, student name, course_id and course name from student_list.php
+								// Receive valid student User ID, student name, course_id hw_id and course name from student_list.php
 								if ( (isset($_GET['uid'])) && (is_numeric($_GET['uid'])) ) {
 									$id = $_GET['uid'];
 									$sname = $_GET['sname'];
 									$cid = $_GET['cid'];
 									$cname = $_GET['cname'];
+									$hid = $_GET['hid'];
 
 									// Build the retrieval query
 									$q = "SELECT a.asmnt_title, a.content, h.hw_id, h.s_id, h.comments, h.file_path, h.grade
 											FROM assignments AS a
 											INNER JOIN homeworks AS h USING(asmnt_id)
-											WHERE a.course_id=$cid AND h.s_id=$id
+											WHERE a.course_id=$cid AND h.s_id=$id AND h.hw_id=$hid
 											ORDER BY h.hw_id";
 									$r = @mysqli_query($dbc, $q);
 
