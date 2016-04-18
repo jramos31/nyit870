@@ -61,7 +61,7 @@ require('pagination_links.php');
 
         			if ($_SESSION['user_level'] == '1') {  // If user is PROFESSOR
         				// Build the query
-        				$q = "SELECT a.asmnt_title, a.content, a.file_path, a.date_posted, c.course_num, c.course_title, c.section_num, c.semester
+        				$q = "SELECT a.asmnt_title, a.content, a.file_path, a.date_posted, a.date_due, c.course_num, c.course_title, c.section_num, c.semester
         					  FROM assignments AS a INNER JOIN courses AS c ON a.course_id=c.course_id
         					  WHERE c.course_id=$id
         					  ORDER BY a.date_posted DESC LIMIT $start, $display";
@@ -91,10 +91,17 @@ require('pagination_links.php');
         							&nbsp; &nbsp; &nbsp; &nbsp; Term: {$messages['semester']}</h3><br>";
         							$course_printed = TRUE;
         						}
-
+								
+								// Format the dates
+								$posted_on = new DateTime($messages['date_posted']);
+								$posted_on = $posted_on->format('m/d/Y');
+								$due_on = new DateTime($messages['date_due']);
+								$due_on = $due_on->format('m/d/Y');
+								
         						// Display the message(s)
-        						echo "<p><b>Date Posted:</b> &nbsp; &nbsp; &nbsp; {$messages['date_posted']}&nbsp; &nbsp; &nbsp;
-        								 <b>Assignment:</b> &nbsp; {$messages['asmnt_title']}<br>
+        						echo "<p><b>Date Posted:</b> &nbsp; &nbsp; &nbsp; {$posted_on}&nbsp; &nbsp; &nbsp; 
+										 <b>Due On: </b> &nbsp; &nbsp; &nbsp; {$due_on} &nbsp; &nbsp; &nbsp; 
+        								 <b>Assignment:</b> &nbsp; {$messages['asmnt_title']} &nbsp; &nbsp; &nbsp; <br>
         								 <b>Comment:</b> &nbsp; {$messages['content']}<br>";
         						if ( !($messages['file_path'] == NULL) ) {
         							// if instructor uploaded a document associated with the assignment,
@@ -109,6 +116,18 @@ require('pagination_links.php');
         				} 	// END OF:  		if ( !(mysqli_num_rows($r)>0) )
 
         				// Professor will also be able to post new homework assignments
+						/*
+						$current_date = new DateTime();
+						$def_due_dte = $current_date->modify('+1 week');
+						$due_dt_string = $def_due_dte->format('m-d-Y');
+						$due_dt_string2 = $def_due_dte->format('Y-m-d H:i:s');
+						$dt_str = "2012-07-08";
+						$time_str = "12:31:50";
+						$dt_str = $dt_str . $time_str;
+						$new_dt = new DateTime($dt_str);
+						$new_dt = $new_dt->format('Y-m-d H:i:s');
+						*/
+						
         				// *** Show Form ***
         				echo '<div class="row">
         						<div class="col-md-6 col-md-offset-2">
@@ -119,6 +138,9 @@ require('pagination_links.php');
         								<div class="panel-body">
         									<form role="form" enctype="multipart/form-data" action="assignment_post.php" method="post">
         										<div class="form-group">
+													<label>Due Date: </label>
+													<input class="form-control" placeholder="MM-DD-YYYY"
+        												name="due_date" type="text" value=""><br>
         											<label>Subject:</label>
         											<input class="form-control" placeholder="Enter a subject (i.e. Homework #, Report #, etc.)"
         												name="subject" size="60" maxlength="100" type="text" value="">
@@ -152,10 +174,11 @@ require('pagination_links.php');
 
         			} // END OF: if ($_SESSION['user_level'] is a TEACHER)
 
+						
         			if ($_SESSION['user_level'] == '0') {   // User is a STUDENT
 
         				// Build the query
-        				$q = "SELECT a.asmnt_id, a.asmnt_title, a.content, a.file_path, a.date_posted, c.course_num, c.course_title, c.section_num, c.semester
+        				$q = "SELECT a.asmnt_id, a.asmnt_title, a.content, a.file_path, a.date_posted, a.date_due, c.course_num, c.course_title, c.section_num, c.semester
         					  FROM assignments AS a INNER JOIN courses AS c ON a.course_id=c.course_id
         					  WHERE c.course_id=$id
         					  ORDER BY a.date_posted DESC LIMIT $start, $display";
@@ -186,11 +209,17 @@ require('pagination_links.php');
 
         							$course_printed = TRUE;
         						}
-
+								
+								// Format the dates
+								$posted_on = new DateTime($messages['date_posted']);
+								$posted_on = $posted_on->format('m/d/Y');
+								$due_on = new DateTime($messages['date_due']);
+								$due_on = $due_on->format('m/d/Y');
 
         						// Display the message(s) and link to the homework upload form.
         						// The link will pass the value of asmnt_id and asmnt_title to the form.
-        						echo "<p><b>Date Posted:</b> &nbsp; &nbsp; &nbsp; {$messages['date_posted']}&nbsp; &nbsp; &nbsp;
+        						echo "<p><b>Date Posted:</b> &nbsp; &nbsp; &nbsp; {$posted_on}&nbsp; &nbsp; &nbsp;
+										 <b>Due On: </b> &nbsp; &nbsp; &nbsp; {$due_on} &nbsp; &nbsp; &nbsp; 
         								 <b>Assignment:</b> &nbsp; {$messages['asmnt_title']} <br>
         								 <b>Comment:</b> &nbsp; {$messages['content']}<br>";
         						echo '<a href="homework_post.php?id=' . $messages['asmnt_id']  . '&title=' . urlencode($messages['asmnt_title']) . '&cid='. $id .'">Submit This Assignment</a><br>';

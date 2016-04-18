@@ -1,5 +1,5 @@
 <?php
-// *** This script allows for students o upload their completed homework in MS Word format ***
+// *** This script allows for students to upload their completed homework in MS Word format ***
 //     - to access this page because it must accessed through the assignment_list.php page
 require('config.inc.php');
 include('header.php');
@@ -151,8 +151,8 @@ require_once('mysqli_connect.php');
 				$file_path = HW_DIR . '/' . $file_name;
 
 				// Add a new record in the database for the homework document uploaded by the user (student)
-				$q = "INSERT INTO homeworks (comments, file_path, asmnt_id, s_id) VALUES
-						('" . mysqli_real_escape_string($dbc, $body) . "', '" . mysqli_real_escape_string($dbc, $file_path) . "', $id, $usr_id)";
+				$q = "INSERT INTO homeworks (comments, file_path, date_posted, asmnt_id, s_id) VALUES
+						('" . mysqli_real_escape_string($dbc, $body) . "', '" . mysqli_real_escape_string($dbc, $file_path) . "', NOW(), $id, $usr_id)";
 				$r = mysqli_query($dbc, $q);
 
 				if (mysqli_affected_rows($dbc) == 1) {

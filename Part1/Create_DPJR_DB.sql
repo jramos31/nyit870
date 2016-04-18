@@ -92,6 +92,7 @@ asmnt_title VARCHAR(60) NOT NULL,
 content VARCHAR(100) NOT NULL,
 file_path VARCHAR(100) NULL,
 date_posted DATETIME NOT NULL,
+date_due DATETIME NOT NULL,
 course_id INT UNSIGNED NOT NULL,
 PRIMARY KEY (asmnt_id),
 INDEX (course_id),
@@ -172,6 +173,7 @@ hw_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 comments VARCHAR(120) NULL,
 file_path VARCHAR(100) NOT NULL,
 grade TINYINT UNSIGNED NULL,
+date_posted DATETIME NOT NULL,
 asmnt_id INT UNSIGNED NOT NULL,
 s_id INT UNSIGNED NOT NULL,
 PRIMARY KEY(hw_id),
@@ -181,4 +183,35 @@ FOREIGN KEY(s_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACT
 );
 
 INSERT INTO homeworks (comments, file_path, asmnt_id, s_id) VALUES 
-('First Homework - Watson, COMPLETED!', 'uploads_homeworks\\hw1.docx', 2, 2);
+('First Homework - Watson, COMPLETED!', 'uploads_homeworks/hw1.docx', 2, 2);
+
+# ******************************************************************************************************************************************
+
+# *******************************************************************************************
+# Create and the two database tables for the blog
+# ** NOTE: 
+#    - Both tables contain a foreign key 'user_id' that references the users table. 
+#    - The posts table also has a foreign key referencing the threads table to aid in
+#       keeping track of message threads.
+# *******************************************************************************************
+CREATE TABLE threads (
+thread_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+user_id INT UNSIGNED NOT NULL,
+subject VARCHAR(150) NOT NULL,
+PRIMARY KEY  (thread_id),
+INDEX (user_id),
+FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE posts (
+post_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+thread_id INT UNSIGNED NOT NULL,
+user_id INT UNSIGNED NOT NULL,
+message TEXT NOT NULL,
+posted_on DATETIME NOT NULL,
+PRIMARY KEY (post_id),
+INDEX (thread_id),
+INDEX (user_id),
+FOREIGN KEY(thread_id) REFERENCES threads(thread_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);

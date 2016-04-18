@@ -122,7 +122,7 @@ if (!isset($_SESSION['user_id'])) {   // User not logged in
 									$hid = $_GET['hid'];
 
 									// Build the retrieval query
-									$q = "SELECT a.asmnt_title, a.content, h.hw_id, h.s_id, h.comments, h.file_path, h.grade
+									$q = "SELECT a.asmnt_title, a.content, a.date_due, h.hw_id, h.s_id, h.comments, h.file_path, h.grade, h.date_posted
 											FROM assignments AS a
 											INNER JOIN homeworks AS h USING(asmnt_id)
 											WHERE a.course_id=$cid AND h.s_id=$id AND h.hw_id=$hid
@@ -141,7 +141,7 @@ if (!isset($_SESSION['user_id'])) {   // User not logged in
 
 										$tabletop_printed = FALSE;  // Set this flag to false because the top of the table needs to printed only once
 										while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
-
+											
 											if (!$tabletop_printed) {
 
 												echo '<h3>' . $cname . '</h3><br>';
@@ -151,10 +151,19 @@ if (!isset($_SESSION['user_id'])) {   // User not logged in
 													<tbody>';
 												$tabletop_printed = TRUE;
 											}
-
+											
+											// When a homework is submitted late, calculate how many days overdue it is:
+											$post_date = new DateTime($row['date_posted']);
+											$due_date = new DateTime($row['date_due']);
+											$overdue = "";
+											if ($due_date < $post_date) {
+												$diff = $post_date->diff($due_date);
+												$overdue = $diff->format('%m Month(s), %d Day(s), %h Hour(s), %i Min(s)') . ' Late<br>';
+											}																						
 											// Display the students
 											echo '<tr>
 												<td>' . $row['asmnt_title'] . '</td>
+												<td>' . $overdue . '</td>
 												<td><a href="' . $row['file_path'] . '">Download Document</a></td>';
 											if ($row['grade'] == NULL) {
 												echo '<td><a href="grade_entry.php?hw=' . $row['hw_id'] . '&uid=' . $id . '&sname=' . $sname . '&cid=' . $cid . '&cname=' . $cname . '">NOT GRADED</a></td></tr>';

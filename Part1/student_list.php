@@ -99,7 +99,7 @@ require('pagination_links.php');
 							while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 								
 								// Get the grades for the submitted homework assignments
-								$q_hw_grade = "SELECT a.asmnt_id, a.asmnt_title, a.content, h.hw_id, h.s_id, h.comments, h.file_path, h.grade
+								$q_hw_grade = "SELECT a.asmnt_id, a.asmnt_title, a.content, a.date_due, h.hw_id, h.s_id, h.comments, h.file_path, h.grade, h.date_posted
 													FROM assignments AS a
 													INNER JOIN homeworks AS h USING(asmnt_id)
 													WHERE a.course_id=$id AND h.s_id=" . $row['user_id'] . "
@@ -141,16 +141,23 @@ require('pagination_links.php');
 									$index = 0;
 									while ($index < $asn_count) {
 										while ($row_grades = mysqli_fetch_array($r_hw_grade, MYSQLI_ASSOC)) {
-										
+											
+											// When a homework is submitted late, calculate how many days overdue it is:
+											$post_date = new DateTime($row_grades['date_posted']);
+											$due_date = new DateTime($row_grades['date_due']);
+											$overdue = "";
+											if ($due_date < $post_date) {
+												$diff = $post_date->diff($due_date);
+												$overdue = $diff->format('%m Month(s), %d Day(s), %h Hour(s), %i Min(s)') . ' Late<br>';
+											}
+											
 											if ($row_grades['grade'] == NULL) {
-												//echo '<td><small>INDEX#' . $index . ' ' . $row_grades['asmnt_title'] . '</small> No Grade</td>';		// *********** FOR DEBUGGING												
 												// Homework has been submitted but has not been graded yet
-												echo '<td><small><a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '&hid=' . $row_grades['hw_id'] .'">' . $row_grades['asmnt_title'] . ' - Not Graded</a></small></td>';
+												echo '<td><small>' . $row_grades['asmnt_title']. '<br>' . $overdue . ' <a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '&hid=' . $row_grades['hw_id'] .'">Not Graded</a></small></td>';
 												$index++;
 											} else {
-												//echo '<td><small>INDEX#' . $index . ' ' . $row_grades['asmnt_title'] . '</small> ' . $row_grades['grade'] . '</td>';		// ***********  FOR DEBUGGING
 												// Homework has been submitted and graded
-												echo '<td><small><a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '&hid=' . $row_grades['hw_id'] .'">'  . $row_grades['asmnt_title'] . ' - ' . $row_grades['grade'] . '%</small></a></td>';
+												echo '<td><small>' . $row_grades['asmnt_title']. '<br>' . $overdue . ' <a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '&hid=' . $row_grades['hw_id'] .'">' . $row_grades['grade'] . '%</small></a></td>';
 												$hw_graded_count++;
 												$grade_sum += $row_grades['grade']; 							
 												$index++;

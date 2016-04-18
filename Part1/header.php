@@ -29,8 +29,11 @@ session_start();
                             <?php
                             if (isset($_SESSION['user_id'])) {  // User is logged in
                             echo '
-                                <li><a href="hboard.php">Home</a></li>';
-
+                                <li><a href="hboard.php">Home</a></li>
+								<li><a href="forum.php">Discussion Board</a></li>';
+								if (basename($_SERVER['PHP_SELF']) == 'forum.php') {
+									echo '<li><a href="post.php">Post a New Thread</a></li>';
+								}
                             if ($_SESSION['user_level'] == '0') { // User is Student
     						$id = $_SESSION['user_id'];
     						echo '

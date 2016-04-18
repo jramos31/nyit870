@@ -7,6 +7,21 @@ require_once('mysqli_connect.php');
 // by the course instructor.
 // Only the course instructor will be able to post when they assign homeworks.
 
+
+// For validating the homework due date
+function validate_due_date($date) {
+	// Break up date string into separate parts:
+	$date_array = explode('-', $date);
+	
+	// Date must have 3 components:
+	if (count($date_array) != 3) return false;
+	
+	// Must be a valid date (month, day, year):
+	if (!checkdate($date_array[0], $date_array[1], $date_array[2])) return false;
+	
+	return $date_array;
+}
+	
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was submitted through the form
 
 	// Validate that data was entered into the text fields
@@ -27,6 +42,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 		echo '<div class="row">
 			<div class="col-lg-12">
 				<div class="alert alert-warning"><p align="center">Please enter a message for this announcement.</p></div>
+			</div>
+		</div>';
+	}
+	
+	
+	
+	if (!empty($_POST['due_date'])) {
+		// must call the validation function defined above:
+		if (list($m, $d, $y) = validate_due_date($_POST['due_date'])) {
+						
+			$new_dt = new DateTime();
+			$new_dt->setDate($y, $m, $d);			
+			$due_date = $new_dt->format('Y-m-d 00:00:00');
+			
+			// ******   START DEBUG  *************************
+			// echo '<div class="row">
+				// <div class="col-lg-12">
+					// <div class="alert alert-success"><p align="center">Homework Assignment is due on: ' . $due_date . '</p></div>
+				// </div>
+			// </div>';
+			// exit();
+			// ******   END DEBUG  ***************************
+			
+		} else {   // Date is not valid
+				$due_date = FALSE;
+				echo '<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-warning"><p align="center">The date you entered is not valid. Please use this format: MM-DD-YYYY</p></div>
+					</div>
+				</div>';
+		}
+	} else { // Date is empty
+		$due_date = FALSE;
+		echo '<div class="row">
+			<div class="col-lg-12">
+				<div class="alert alert-warning"><p align="center">Please enter a valid date.</p></div>
 			</div>
 		</div>';
 	}
@@ -138,19 +189,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 	}// End of IF:     if (is_uploaded_file($_FILES['upload']['tmp_name']))
 	//exit(); // Comment out or Remove this line to proceed with Database Insertion
 
-	if ($subject && $body) {  // Both are validated
+	if ($subject && $body && $due_date) {  
 
 		$id = $_POST['course_id'];  // received from the assignment_list.php form as a hidden input
 
 		if ($file_upload) { // A file was uploaded and validated
 			// Add new assignment with "relative" file path into the database
 			$file_path = ASSIGN_DIR . '/' . $file_name;
-			$q = "INSERT INTO assignments (asmnt_title, content, file_path, date_posted, course_id)
-				  VALUES ('" . mysqli_real_escape_string($dbc, $subject) . "', '" . mysqli_real_escape_string($dbc, $body) . "', '" . mysqli_real_escape_string($dbc, $file_path) . "' , NOW(), '$id')";
+			$q = "INSERT INTO assignments (asmnt_title, content, file_path, date_posted, date_due, course_id)
+				  VALUES ('" . mysqli_real_escape_string($dbc, $subject) . "', '" . mysqli_real_escape_string($dbc, $body) . "', '" . mysqli_real_escape_string($dbc, $file_path) . "' , NOW(), '$due_date', '$id')";
 		} else {
 		// Add new assignment into the database
-			$q = "INSERT INTO assignments (asmnt_title, content, date_posted, course_id)
-				  VALUES ('" . mysqli_real_escape_string($dbc, $subject) . "', '" . mysqli_real_escape_string($dbc, $body) . "', NOW(), '$id')";
+			$q = "INSERT INTO assignments (asmnt_title, content, date_posted, date_due, course_id)
+				  VALUES ('" . mysqli_real_escape_string($dbc, $subject) . "', '" . mysqli_real_escape_string($dbc, $body) . "', NOW(), '$due_date', '$id')";
 		}
 		$r = mysqli_query($dbc, $q);
 

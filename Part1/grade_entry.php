@@ -89,7 +89,8 @@ include('header.php');
 					$r = @mysqli_query ($dbc, $q);
 										
 					mysqli_close($dbc);
-					$url = BASE_URL . 'view_grades.php?uid=' . $uid . '&sname=' . $sname . '&cid=' . $cid . '&cname=' . $cname . '&hid=' . $h_id;
+					//$url = BASE_URL . 'view_grades.php?uid=' . $uid . '&sname=' . $sname . '&cid=' . $cid . '&cname=' . $cname . '&hid=' . $h_id;
+					$url = BASE_URL . 'student_list.php?id=' . $cid;
 					ob_end_clean();   //  Delete unsent buffer data
 					header("Location: $url");
 					exit();									
