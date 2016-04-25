@@ -32,7 +32,7 @@ include('header.php');
                     </div>
                     <div class="col-xs-6 col-sm-3 placeholder">
                         <img src="http://www.gordiandynamics.com/wp-content/uploads/2015/11/webinar-icon-grey.png" class="img-responsive" alt="Online Exam Image">
-                        <a href="#" class="button button-reversed">DISCUSSION</a>
+                        <a href="forum.php" class="button button-reversed">DISCUSSION</a>
                     </div>
                     <div class="col-xs-6 col-sm-3 placeholder">
                         <a href="view_grades.php"><img src="http://manch.co.in/site_media/img/homepage/test-prep-icon.png" class="img-responsive" alt="Grades Image"></a>

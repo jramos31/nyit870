@@ -93,5 +93,5 @@ include("header.php"); ?>
 					</div>
 				</div>
 			</div>
-
+		</article>
 <?php include('footer.php'); ?>

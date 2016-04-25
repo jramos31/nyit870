@@ -1,13 +1,13 @@
 <?php
 // *** This script will delete a posted announcement in the database ***
-//     - If a file associated with an announcement has been uploaded 
+//     - If a file associated with an announcement has been uploaded
 //        this script will also delete it from the directory
 require('config.inc.php');
 include('header.php');
 ?>
 
 		<!--  ****** Start of Page Content ******  -->
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
         <h1 class="page-header">Delete Announcements</h1><br />
 
 		<?php
@@ -36,13 +36,13 @@ include('header.php');
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 			if ($_POST['sure'] == 'Yes') {
-				
+
 				// Build select query to find any uploaded file associated with the announcement
 				$q = "SELECT file_path FROM announcements WHERE ann_id=$id LIMIT 1";
 				$r = @mysqli_query($dbc, $q);
-				if (mysqli_num_rows($r) == 1) { 
+				if (mysqli_num_rows($r) == 1) {
 					$row = mysqli_fetch_array($r, MYSQLI_NUM);
-					$file_path = $row[0];	
+					$file_path = $row[0];
 				} else {
 					$file_path = NULL;  // No announcement file in directory
 				}
@@ -51,14 +51,14 @@ include('header.php');
 				$r = @mysqli_query($dbc, $q);
 
 				if (mysqli_affected_rows($dbc) == 1) {  // DELETE query was successful
-					
+
 					//  If a file was uploaded for this announcement then delete it from the directory
 					if (file_exists($file_path)) {
 						if (!unlink($file_path)){
 							echo '<b>ERROR: Could not delete: ' . $file_path . '</b>';
 							exit();
-						} 				
-					}					
+						}
+					}
 					echo '<div class="row">
 						<div class="col-lg-12">
 							<div class="alert alert-success"><p align="center">Posted announcement has been deleted!</p></div>
@@ -103,7 +103,7 @@ include('header.php');
 				echo '<div class="row">
 					<div class="col-lg-12">
 						<div class="alert alert-warning"><h3 align="left">Subject: ' . $row[0] . '</h3><h3 align="left">Content: ' . $row[1] . '</h3>
-						<h3 align="left">File: ' . $row[2] . '</h3>						
+						<h3 align="left">File: ' . $row[2] . '</h3>
 						</div>
 					</div>
 				</div>';
@@ -141,6 +141,6 @@ include('header.php');
 		} // End of main IF - form submission
 
 		mysqli_close($dbc);
-		?>	  
-    </div> <!--  ****** End of Page Content ******  -->
+		?>
+    </article>
 <?php include('footer.php'); ?>
