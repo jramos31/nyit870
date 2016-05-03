@@ -23,7 +23,7 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 	$ln = $_SESSION['last_name'];
 
 	// Build the retrieval query and get the list of courses that this particular user is in
-	$q = "SELECT c.course_num, c.course_title, c.section_num, c.semester, c.course_id
+	$q = "SELECT c.course_num, c.course_title, c.section_num, c.campus, c.location, TIME_FORMAT(c.start_time, '%l:%i %p') AS starttime, TIME_FORMAT(c.end_time, '%l:%i %p') AS endtime, c.days, c.semester, c.course_id
           FROM courses AS c INNER JOIN students AS s ON c.course_id=s.course_id
           WHERE s.user_id=$usr_id";
 	$r = @mysqli_query($dbc, $q);
@@ -48,6 +48,11 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 							<th>Course</th>
 							<th>Title</th>
 							<th>Section</th>
+							<th>Campus</th>
+							<th>Location</th>
+							<th>Start</th>
+							<th>End</th>
+							<th>Days</th>
 							<th>Semester</th>
 						</tr>
 					</thead>
@@ -58,10 +63,15 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 						echo '<tr>
 							<td><a href="announcement_list.php?id=' . $row['course_id'] . '">Announcements</a></td>
 							<td><a href="assignment_list.php?id=' . $row['course_id'] . '">Assignments</a></td>
-							<td>' . $row['course_num'] . '</td>
-							<td>' . $row['course_title'] . '</td>
-							<td>' . $row['section_num'] . '</td>
-							<td>' . $row['semester'] . '</td>
+							<td><small>' . $row['course_num'] . '</small></td>
+							<td><small>' . $row['course_title'] . '</small></td>
+							<td><small>' . $row['section_num'] . '</small></td>
+							<td><small>' . $row['campus'] . '</small></td>
+							<td><small>' . $row['location'] . '</small></td>
+							<td><small>' . $row['starttime'] . '</small></td>
+							<td><small>' . $row['endtime'] . '</small></td>
+							<td><small>' . $row['days'] . '</small></td>
+							<td><small>' . $row['semester'] . '</small></td>
 						</tr>';
 					}
 
@@ -94,7 +104,7 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 	$ln = $_SESSION['last_name'];
 
 	// Build the retrieval query
-	$q = "SELECT course_num, course_title, section_num, semester, course_id FROM courses WHERE prof_id=$usr_id";
+	$q = "SELECT course_num, course_title, section_num, campus, location, TIME_FORMAT(start_time, '%l:%i %p') AS starttime, TIME_FORMAT(end_time, '%l:%i %p') AS endtime, days, semester, course_id FROM courses WHERE prof_id=$usr_id";
 	$r = @mysqli_query($dbc, $q);
 
 	// Number of rows returned by the query
@@ -118,6 +128,11 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 							<th>Course</th>
 							<th>Title</th>
 							<th>Section</th>
+							<th>Campus</th>
+							<th>Location</th>
+							<th>Start</th>
+							<th>End</th>
+							<th>Days</th>
 							<th>Semester</th>
 						</tr>
 					</thead>
@@ -129,10 +144,15 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 							<td><a href="student_list.php?id=' . $row['course_id'] . '">Grades</a></td>
 							<td><a href="announcement_list.php?id=' . $row['course_id'] . '">Announcements</a></td>
 							<td><a href="assignment_list.php?id=' . $row['course_id'] . '">Assignments</a></td>
-							<td>' . $row['course_num'] . '</td>
-							<td>' . $row['course_title'] . '</td>
-							<td>' . $row['section_num'] . '</td>
-							<td>' . $row['semester'] . '</td>
+							<td><small>' . $row['course_num'] . '</small></td>
+							<td><small>' . $row['course_title'] . '</small></td>
+							<td><small>' . $row['section_num'] . '</small></td>
+							<td><small>' . $row['campus'] . '</small></td>
+							<td><small>' . $row['location'] . '</small></td>
+							<td><small>' . $row['starttime'] . '</small></td>
+							<td><small>' . $row['endtime'] . '</small></td>
+							<td><small>' . $row['days'] . '</small></td>
+							<td><small>' . $row['semester'] . '</small></td>
 						</tr>';
 					}
 
