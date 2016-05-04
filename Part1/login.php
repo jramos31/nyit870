@@ -15,7 +15,8 @@ include("header.php"); ?>
 							$email = mysqli_real_escape_string($dbc, $_POST['email']);
 						} else {
 							$email = FALSE;
-							echo '<div class="row">
+							echo '
+								<div class="row">
 									<div class="col-lg-12">
 										<div class="alert alert-warning">
 											<p align="center">You forgot to enter your email address!</p>
@@ -29,7 +30,8 @@ include("header.php"); ?>
 							$pw = mysqli_real_escape_string($dbc, $_POST['pass']);
 						} else {
 							$pw = FALSE;
-							echo '<div class="row">
+							echo '
+								<div class="row">
 									<div class="col-lg-12">
 										<div class="alert alert-warning">
 											<p align="center">You forgot to enter your password!</p>
@@ -59,13 +61,14 @@ include("header.php"); ?>
 								exit();
 
 							} else {  // No match found in database!
-								echo '<div class="row">
-									<div class="col-lg-12">
-										<div class="alert alert-warning">
-											<p align="center">Either email address or password do not match those on file or you need to activate your account.</p>
+								echo '
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="alert alert-warning">
+												<p align="center">Either email address or password do not match those on file or you need to activate your account.</p>
+											</div>
 										</div>
-									</div>
-								</div>';
+									</div>';
 							}
 						} else {
 							echo '<p>Please try again!</p>';
@@ -94,4 +97,5 @@ include("header.php"); ?>
 				</div>
 			</div>
 		</article>
+		
 <?php include('footer.php'); ?>

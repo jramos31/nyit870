@@ -22,9 +22,12 @@ include('header.php'); ?>
     			if (preg_match('/^[A-Z \'.-]{2,20}$/i',$trimmed['first_name'])) {
     				$fn = mysqli_real_escape_string($dbc, $trimmed['first_name']);
     			} else {
-    				echo '<div class="row">
+    				echo '
+                        <div class="row">
     						<div class="col-lg-12">
-    							<div class="alert alert-warning"><p align="center">Please enter your first name!</p></div>
+    							<div class="alert alert-warning">
+                                    <p align="center">Please enter your first name!</p>
+                                </div>
     						</div>
     					</div>';
     			}
@@ -33,9 +36,12 @@ include('header.php'); ?>
     			if (preg_match('/^[A-Z \'.-]{2,20}$/i',$trimmed['last_name'])) {
     				$ln = mysqli_real_escape_string($dbc, $trimmed['last_name']);
     			} else {
-    				echo '<div class="row">
+    				echo '
+                        <div class="row">
     						<div class="col-lg-12">
-    							<div class="alert alert-warning"><p align="center">Please enter your last name!</p></div>
+    							<div class="alert alert-warning">
+                                    <p align="center">Please enter your last name!</p>
+                                </div>
     						</div>
     					</div>';
     			}
@@ -44,9 +50,12 @@ include('header.php'); ?>
     			if (filter_var($trimmed['email'], FILTER_VALIDATE_EMAIL)) {
     				$e = mysqli_real_escape_string($dbc, $trimmed['email']);
     			} else {
-    				echo '<div class="row">
+    				echo '
+                        <div class="row">
     						<div class="col-lg-12">
-    							<div class="alert alert-warning"><p align="center">Please enter a valid email address!</p></div>
+    							<div class="alert alert-warning">
+                                    <p align="center">Please enter a valid email address!</p>
+                                </div>
     						</div>
     					</div>';
     			}
@@ -56,16 +65,22 @@ include('header.php'); ?>
     				if ($trimmed['password1'] == $trimmed['password2']) {
     					$p = mysqli_real_escape_string($dbc, $trimmed['password1']);
     				} else {
-    					echo '<div class="row">
-    						<div class="col-lg-12">
-    							<div class="alert alert-warning"><p align="center">Your password did not match the confirmed password!</p></div>
-    						</div>
-    					</div>';
+    					echo '
+                            <div class="row">
+    						    <div class="col-lg-12">
+    						        <div class="alert alert-warning">
+                                        <p align="center">Your password did not match the confirmed password!</p>
+                                    </div>
+		                        </div>
+    					    </div>';
     				}
     			} else {
-    				echo '<div class="row">
+    				echo '
+                        <div class="row">
     						<div class="col-lg-12">
-    							<div class="alert alert-warning"><p align="center">Please enter a valid password!</p></div>
+    							<div class="alert alert-warning">
+                                    <p align="center">Please enter a valid password!</p>
+                                </div>
     						</div>
     					</div>';
     			}
@@ -93,11 +108,13 @@ include('header.php'); ?>
     						mail($trimmed['email'], 'Registration Confirmation', $body, 'From: admin@sitename.com');
 
     						// Finish the page:
-    						echo '<div class="row">
+    						echo '
+                                <div class="row">
     								<div class="col-lg-12">
     									<div class="alert alert-success">
-    										<h3 align="center">Thank you for registering! A confirmation email has been sent to your address.
-    										                   Please click on the link in that email in order to activate your account.
+    										<h3 align="center">
+                                                Thank you for registering! A confirmation email has been sent to your address.
+    										    Please click on the link in that email in order to activate your account.
     									    </h3>
     									</div>
     								</div>
@@ -106,7 +123,8 @@ include('header.php'); ?>
     						exit(); // Stop the page.
 
     					} else {  // If it did not run OK.
-    						echo '<div class="row">
+    						echo '
+                                <div class="row">
     								<div class="col-lg-12">
     									<div class="alert alert-warning">
     										<p align="center">You could not be registered due to a system error. We apologize for any incovenience.</p>
@@ -116,11 +134,13 @@ include('header.php'); ?>
     					}
 
     				} else {  // The email address is not available.
-    					echo '<div class="row">
+    					echo '
+                            <div class="row">
     							<div class="col-lg-12">
     								<div class="alert alert-warning">
-    									<p align="center">That email address has already been registered. If you have forgotton your password,
-    										              use the link at left to have your password sent to you.
+    									<p align="center">
+                                            That email address has already been registered. If you have forgotton your password,
+    										use the link at left to have your password sent to you.
     									</p>
     								</div>
     							</div>
@@ -128,9 +148,12 @@ include('header.php'); ?>
     				}
 
     			} else {  // If one of the data tests failed.
-    				echo '<div class="row">
+    				echo '
+                        <div class="row">
     						<div class="col-lg-12">
-    							<div class="alert alert-warning"><p align="center">Please try again.</p></div>
+    							<div class="alert alert-warning">
+                                    <p align="center">Please try again.</p>
+                                </div>
     						</div>
     					</div>';
     			}
@@ -142,11 +165,10 @@ include('header.php'); ?>
 
 
     			<h1 class="page-header">Register Your Account</h1>
-
     			<div class="col-md-4 col-md-offset-4">
-
     				<div class="panel panel-default">
-    					<div class="panel-heading"><h3 class="panel-title">Register</h3>
+    					<div class="panel-heading">
+                            <h3 class="panel-title">Register</h3>
                         </div>
     					<div class="panel-body">
     						<form role="form" action="register.php" method="post">
@@ -174,15 +196,12 @@ include('header.php'); ?>
     								<input class="form-control" placeholder="Confirm Password" type="password"
     									name="password2" size="20" maxlength="20"
     									value="<?php if (isset($trimmed['password2'])) echo $trimmed['password2']; ?>">
-
-
     							</div>
-
     							<input class="btn btn-lg btn-success btn-block" type="submit" name="submit" value="Register" >
-
     						</form>
     					</div>
     				</div>
     			</div>
 		</artcle>
+
 <?php include('footer.php'); ?>

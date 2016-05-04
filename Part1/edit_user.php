@@ -25,11 +25,14 @@ include('header.php');
         			$id = $_POST['id'];
 
         		} else {  // No valid user_id, kill the script
-        			echo '<div class="row">
-        				<div class="col-lg-12">
-        					<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-        				</div>
-        			</div>';
+        			echo '
+                        <div class="row">
+            				<div class="col-lg-12">
+            					<div class="alert alert-warning">
+                                    <p align="center">This page was accessed in error.</p>
+                                </div>
+            				</div>
+            			</div>';
         			include('footer.php');
         			exit();
         		}
@@ -75,31 +78,34 @@ include('header.php');
         					if (mysqli_affected_rows($dbc) == 1)  {		// Update successfull
         						echo '<p>User info has been updated</p>';
         					} else {			// Update Not successfull
-        						echo '<div class="row">
-        							<div class="col-lg-12">
-        								<div class="alert alert-warning">
-        									<p align="center">The user could not be edited due to a system error. We apologize for any inconvenience.</p>
-        									<p>' . mysqli_error($dbc) . '<br>Query: ' . $q . '</p>
-        								</div>
-        							</div>
-        						</div>';
+        						echo '
+                                    <div class="row">
+            							<div class="col-lg-12">
+            								<div class="alert alert-warning">
+            									<p align="center">The user could not be edited due to a system error. We apologize for any inconvenience.</p>
+            									<p>' . mysqli_error($dbc) . '<br>Query: ' . $q . '</p>
+            								</div>
+            							</div>
+            						</div>';
         					}
         				} else {  // Email is not unique
-        					echo '<div class="row">
-        						<div class="col-lg-12">
-        							<div class="alert alert-warning"><p align="center">The email address has already been registered.</p></div>
-        						</div>
-        					</div>';
+        					echo '
+                                <div class="row">
+            						<div class="col-lg-12">
+            							<div class="alert alert-warning"><p align="center">The email address has already been registered.</p></div>
+            						</div>
+            					</div>';
         				}
         			} else {  // Display the errors
-        				echo '<div class="row">
+        				echo '
+                            <div class="row">
         						<div class="col-lg-12">
         							<div class="alert alert-warning">
-        							<p align="center">The following error(s) were found: </p>';
-        							foreach ($error_msgs as $msg) {
+					                    <p align="center">The following error(s) were found: </p>';
+				                        foreach ($error_msgs as $msg) {
         								echo " $msg";
-        							}
-        				echo '</div>
+        							    }
+        				echo '      </div>
         						</div>
         					</div>';
         			}
@@ -112,8 +118,10 @@ include('header.php');
 
         			$row = mysqli_fetch_array($r, MYSQLI_NUM);
 
-        			echo '<div class="panel panel-default">
-        					<div class="panel-heading"><h3 class="panel-title">Edit User Info</h3>
+        			echo '
+                        <div class="panel panel-default">
+        					<div class="panel-heading">
+                                <h3 class="panel-title">Edit User Info</h3>
                             </div>
         					<div class="panel-body">
         						<form role="form" action="edit_user.php" method="post">
@@ -133,13 +141,15 @@ include('header.php');
         						</form>
         					</div>
         				</div>';
-
         		} else {  // User id was not valid
-        			echo '<div class="row">
-        				<div class="col-lg-12">
-        					<div class="alert alert-warning"><p align="center">This page has been accessed in error.</p></div>
-        				</div>
-        			</div>';
+        			echo '
+                        <div class="row">
+            				<div class="col-lg-12">
+            					<div class="alert alert-warning">
+                                    <p align="center">This page has been accessed in error.</p>
+                                </div>
+            				</div>
+            			</div>';
         		}
         		mysqli_close($dbc);
         		?>

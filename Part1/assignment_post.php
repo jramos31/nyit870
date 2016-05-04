@@ -12,16 +12,16 @@ require_once('mysqli_connect.php');
 function validate_due_date($date) {
 	// Break up date string into separate parts:
 	$date_array = explode('-', $date);
-	
+
 	// Date must have 3 components:
 	if (count($date_array) != 3) return false;
-	
+
 	// Must be a valid date (month, day, year):
 	if (!checkdate($date_array[0], $date_array[1], $date_array[2])) return false;
-	
+
 	return $date_array;
 }
-	
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was submitted through the form
 
 	// Validate that data was entered into the text fields
@@ -29,33 +29,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 		$subject = htmlentities($_POST['subject']);
 	} else {
 		$subject = FALSE;
-		echo '<div class="row">
-			<div class="col-lg-12">
-				<div class="alert alert-warning"><p align="center">Please enter a subject for this announcement.</p></div>
-			</div>
-		</div>';
+		echo '
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="alert alert-warning">
+						<p align="center">Please enter a subject for this announcement.</p>
+					</div>
+				</div>
+			</div>';
 	}
 	if (!empty($_POST['body'])) {
 		$body = htmlentities($_POST['body']);
 	} else {
 		$body = FALSE;
-		echo '<div class="row">
-			<div class="col-lg-12">
-				<div class="alert alert-warning"><p align="center">Please enter a message for this announcement.</p></div>
-			</div>
-		</div>';
+		echo '
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="alert alert-warning">
+						<p align="center">Please enter a message for this announcement.</p>
+					</div>
+				</div>
+			</div>';
 	}
-	
-	
-	
+
 	if (!empty($_POST['due_date'])) {
 		// must call the validation function defined above:
 		if (list($m, $d, $y) = validate_due_date($_POST['due_date'])) {
-						
+
 			$new_dt = new DateTime();
-			$new_dt->setDate($y, $m, $d);			
+			$new_dt->setDate($y, $m, $d);
 			$due_date = $new_dt->format('Y-m-d 00:00:00');
-			
+
 			// ******   START DEBUG  *************************
 			// echo '<div class="row">
 				// <div class="col-lg-12">
@@ -64,22 +68,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 			// </div>';
 			// exit();
 			// ******   END DEBUG  ***************************
-			
+
 		} else {   // Date is not valid
 				$due_date = FALSE;
-				echo '<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-warning"><p align="center">The date you entered is not valid. Please use this format: MM-DD-YYYY</p></div>
-					</div>
-				</div>';
+				echo '
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">The date you entered is not valid. Please use this format: MM-DD-YYYY</p>
+							</div>
+						</div>
+					</div>';
 		}
 	} else { // Date is empty
 		$due_date = FALSE;
-		echo '<div class="row">
-			<div class="col-lg-12">
-				<div class="alert alert-warning"><p align="center">Please enter a valid date.</p></div>
-			</div>
-		</div>';
+		echo '
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="alert alert-warning">
+						<p align="center">Please enter a valid date.</p>
+					</div>
+				</div>
+			</div>';
 	}
 
 	// Validate if a file is being uploaded
@@ -107,18 +117,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 						$file_name = $file_name . '.docx';
 						break;
 					default:
-						echo '<div class="row">
-							<div class="col-lg-12">
-								<div class="alert alert-warning">
-									<p align="center">File must be a PDF file or MS Word Document</p>
+						echo '
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="alert alert-warning">
+										<p align="center">File must be a PDF file or MS Word Document</p>
+									</div>
 								</div>
-							</div>
-						</div>';
+							</div>';
 						exit(); // quit the script
 				}
 			}
 		}  // End of IF:   if (empty($_POST['newfilename']))
-		
+
 		$source = $_FILES['upload']['tmp_name'];  // temporary location of uploaded file on web server
 		$file_size = $_FILES['upload']['size'];   // get file size in bytes
 		$max_file_size = $_POST['MAX_FILE_SIZE']; // Maximum file size as indicated in the form in assignment_list.php
@@ -131,14 +142,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 
 			// Check that the file size doesn't exceed the maximum limit (524 KB or 524288 Bytes)
 			if ($file_size > $max_file_size) {
-				echo '<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-warning">
-							<p align="center">That file exceeds the maximum allowable file size limit.
-							Please reduce the file size or select a different file and try again.</p>
+				echo '
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">
+									That file exceeds the maximum allowable file size limit.
+									Please reduce the file size or select a different file and try again.
+								</p>
+							</div>
 						</div>
-					</div>
-				</div>';
+					</div>';
 				exit();
 			}
 
@@ -147,15 +161,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 
 			// Check if filename aleady exists in the direcotry
 			if (file_exists($target)) {
-				echo '<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-warning">
-							<p align="center">Error: A file with that name already exists.
-							Please try changing the file name before uploading it.
-							</p>
+				echo '
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">
+									Error: A file with that name already exists.
+									Please try changing the file name before uploading it.
+								</p>
+							</div>
 						</div>
-					</div>
-				</div>';
+					</div>';
 				exit();
 			}
 
@@ -165,20 +181,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 				$file_upload = TRUE;    // SUCCESS
 
 			} else {
-				echo '<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-warning">
-							<p align="center">ERROR: FILE WAS NOT UPLOADED!!!</p>
+				echo '
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">ERROR: FILE WAS NOT UPLOADED!!!</p>
+							</div>
 						</div>
-					</div>
-				</div>';
+					</div>';
 				exit();
 			}
 
 		} else {  // Wrong file type
-			echo '<div class="row">
-				<div class="col-lg-12">
-					<div class="alert alert-warning">
+			echo '
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-warning">
 						<p align="center">The file you tried to upload was not the correct type.</p>
 						<p align="center">Please upload only MS Word Documents (.doc, .docx)</p>
 					</div>
@@ -189,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 	}// End of IF:     if (is_uploaded_file($_FILES['upload']['tmp_name']))
 	//exit(); // Comment out or Remove this line to proceed with Database Insertion
 
-	if ($subject && $body && $due_date) {  
+	if ($subject && $body && $due_date) {
 
 		$id = $_POST['course_id'];  // received from the assignment_list.php form as a hidden input
 
@@ -214,20 +232,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new homework assignment was su
 			exit();
 
 		} else {
-			echo '<div class="row">
-				<div class="col-lg-12">
-					<div class="alert alert-warning"><p align="center">The homework assignment could not be posted due system error.</p></div>
-				</div>
-			</div>';
+			echo '
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-warning">
+							<p align="center">The homework assignment could not be posted due system error.</p>
+						</div>
+					</div>
+				</div>';
 		}
 	}
 
-} else { // If somehow this paged was accessed directly, quit the script
-	echo '<div class="row">
-		<div class="col-lg-12">
-			<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-		</div>
-	</div>';
+		} else { // If somehow this paged was accessed directly, quit the script
+			echo '
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-warning">
+							<p align="center">This page was accessed in error.</p>
+						</div>
+					</div>
+				</div>';
 	include('footer.php');
 	exit();
 }

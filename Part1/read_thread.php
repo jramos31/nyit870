@@ -95,13 +95,17 @@ require('pagination_links.php');
             		include('post_form.php');
 
             	} else {
-            		echo '<div class="row">
-            			<div class="col-lg-12">
-            				<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-            			</div>
-            		</div>';
+            		echo '
+                        <div class="row">
+            			    <div class="col-lg-12">
+    				            <div class="alert alert-warning">
+                                    <p align="center">This page was accessed in error.</p>
+                                </div>
+            			    </div>
+		                </div>';
             	}
             } // END OF:  if(isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT, array('min_range' => 1)) )
             ?>
         </article>
+        
 <?php include('footer.php'); ?>

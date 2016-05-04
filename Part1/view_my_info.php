@@ -17,10 +17,11 @@ if (!isset($_SESSION['user_id'])) {
 		<!--  ****** Start of Page Content ******  -->
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h1 class="page-header">Personal Information</h1><br />
-
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="alert alert-warning"><p align="center">Sorry The Profile Page Is Under Construction.</p></div>
+					<div class="alert alert-warning">
+						<p align="center">Sorry The Profile Page Is Under Construction.</p>
+					</div>
 				</div>
 			</div>
 		</div>

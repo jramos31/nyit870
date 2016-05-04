@@ -23,11 +23,14 @@ include('header.php');
         			$id = $_POST['id'];
 
         		} else {  // No valid user_id, kill the script
-        			echo '<div class="row">
-        				<div class="col-lg-12">
-        					<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-        				</div>
-        			</div>';
+        			echo '
+                        <div class="row">
+            			    <div class="col-lg-12">
+            					<div class="alert alert-warning">
+                                    <p align="center">This page was accessed in error.</p>
+                                </div>
+            				</div>
+            			</div>';
         			include('footer.php');
         			exit();
         		}
@@ -45,34 +48,44 @@ include('header.php');
 
         				if (mysqli_affected_rows($dbc) == 1) {  // DELETE query was successful
 
-        					echo '<div class="row">
-        						<div class="col-lg-12">
-        							<div class="alert alert-success"><p align="center">User has been deleted!</p></div>
-        						</div>
-        					</div>';
-
+        					echo '
+                                <div class="row">
+            					    <div class="col-lg-12">
+            							<div class="alert alert-success">
+                                            <p align="center">User has been deleted!</p>
+                                        </div>
+            						</div>
+            					 </div>';
         				} else {  // DELETE query failed
-
-        					echo '<div class="row">
-        						<div class="col-lg-12">
-        							<div class="alert alert-warning"><p align="center">This user could not be deleted due to system error.</p></div>
-        						</div>
-        					</div>';
+        					echo '
+                                <div class="row">
+            						<div class="col-lg-12">
+            							<div class="alert alert-warning">
+                                            <p align="center">This user could not be deleted due to system error.</p>
+                                        </div>
+            						</div>
+            					 </div>';
 
         					// Debugging message only
-        					echo '<div class="row">
-        						<div class="col-lg-12">
-        							<div class="alert alert-warning"><p>' . mysqli_error($dbc) . '<br />Query: ' . $q . '</p></div>
-        						</div>
-        					</div>';
+        					echo '
+                                <div class="row">
+            						<div class="col-lg-12">
+            							<div class="alert alert-warning">
+                                            <p>' . mysqli_error($dbc) . '<br />Query: ' . $q . '</p>
+                                        </div>
+            						</div>
+            					 </div>';
         				}
 
         			} else {
-        				echo '<div class="row">
-        					<div class="col-lg-12">
-        						<div class="alert alert-warning"><p align="center">The user has not been deleted.</p></div>
-        					</div>
-        				</div>';
+        				echo '
+                        <div class="row">
+            				<div class="col-lg-12">
+            						<div class="alert alert-warning">
+                                        <p align="center">The user has not been deleted.</p>
+                                    </div>
+            					</div>
+            				</div>';
         			}
 
         		} else {  // No form submission, so show the form
@@ -86,16 +99,18 @@ include('header.php');
         				$row = mysqli_fetch_array($r, MYSQLI_NUM);
 
         				// Show user record to be deleted
-        				echo '<div class="row">
-        					<div class="col-lg-12">
-        						<div class="alert alert-warning"><h3 align="center">Name: ' . $row[0] . '</h3>
-
-        						</div>
-        					</div>
-        				</div>';
+        				echo '
+                            <div class="row">
+            					<div class="col-lg-12">
+            						<div class="alert alert-warning">
+                                        <h3 align="center">Name: ' . $row[0] . '</h3>
+            						</div>
+            					</div>
+            				</div>';
 
         				// Create the form
-        				echo '<div class="col-md-3 col-md-offset-4">
+        				echo '
+                            <div class="col-md-3 col-md-offset-4">
         						<div class="panel panel-default">
         							<div class="panel-heading">
         								<h3 class="panel-title">Are you sure you want to delete this user?</h3></div>
@@ -109,20 +124,22 @@ include('header.php');
         											<input type="radio" name="sure" value="No" checked> No
         										</label>
         									</div>
-
         									<input class="btn btn-lg btn-success btn-block" type="submit" name="submit" value="Submit">
         									<input type="hidden" name="id" value="'. $id . '">
         								</form>
         							</div>
         						</div>
-        				</div>';
+        				     </div>';
 
         			} else { // Not a valid user id
-        				echo '<div class="row">
-        					<div class="col-lg-12">
-        						<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-        					</div>
-        				</div>';
+        				echo '
+                        <div class="row">
+            				<div class="col-lg-12">
+            					<div class="alert alert-warning">
+                                    <p align="center">This page was accessed in error.</p>
+                                </div>
+            				</div>
+            			</div>';
         			}
         		} // End of main IF - form submission
 

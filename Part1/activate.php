@@ -18,27 +18,31 @@ if (isset($_GET['x'], $_GET['y'])
 
 		// Print a customized message:
 		if (mysqli_affected_rows($dbc) == 1) {
-			echo '<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-success">
-							<h3 align="center">Your acount is now active. You may now log in.</h3>
+			echo '
+				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-success">
+								<h3 align="center">Your acount is now active. You may now log in.</h3>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>';
+				</div>';
 		} else {
-			echo '<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-warning">
-							<p align="center">Your account could not be activated.
-							Please re-check the link or contact the system administrator.</p>
+			echo '
+				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">
+									Your account could not be activated.
+									Please re-check the link or contact the system administrator.
+								</p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>';
-		}
+				</div>';
+			}
 
 		mysqli_close($dbc);
 
@@ -48,6 +52,6 @@ if (isset($_GET['x'], $_GET['y'])
 			header("Location: $url");
 			exit(); // Quit the script.
 		} // End of main IF-ELSE.
-	
+
 include('footer.php');
 ?>

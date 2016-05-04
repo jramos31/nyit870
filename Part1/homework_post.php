@@ -40,13 +40,14 @@ require_once('mysqli_connect.php');
 								$file_name = $file_name . '.docx';
 								break;
 							default:
-								echo '<div class="row">
-									<div class="col-lg-12">
-										<div class="alert alert-warning">
-											<p align="center">File must be a MS Word Document</p>
+								echo '
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="alert alert-warning">
+												<p align="center">File must be a MS Word Document</p>
+											</div>
 										</div>
-									</div>
-								</div>';
+									</div>';
 								exit(); // quit the script
 						}
 					}
@@ -63,14 +64,17 @@ require_once('mysqli_connect.php');
 
 					// Check that the file size doesn't exceed the maximum limit (524 KB or 524288 Bytes)
 					if ($file_size > $max_file_size) {
-						echo '<div class="row">
-							<div class="col-lg-12">
-								<div class="alert alert-warning">
-									<p align="center">That file exceeds the maximum allowable file size limit.
-									Please reduce the file size or select a different file and try again.</p>
+						echo '
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="alert alert-warning">
+										<p align="center">
+											That file exceeds the maximum allowable file size limit.
+											Please reduce the file size or select a different file and try again.
+										</p>
+									</div>
 								</div>
-							</div>
-						</div>';
+							</div>';
 						exit();
 					}
 
@@ -80,12 +84,15 @@ require_once('mysqli_connect.php');
 
 					// Check if filename aleady exists in the direcotry
 					if (file_exists($target)) {
-						echo '<div class="row">
-							<div class="col-lg-12">
-								<div class="alert alert-warning">
-									<p align="center">Error: A file with that name already exists.
-									Please try changing the file name before uploading it.<br>';
-									echo 'To go back <a href="assignment_list.php?id=' . $c_id . '">Click Here</a></p>
+						echo '
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="alert alert-warning">
+										<p align="center">
+											Error: A file with that name already exists.
+											Please try changing the file name before uploading it.<br>';
+											echo 'To go back <a href="assignment_list.php?id=' . $c_id . '">Click Here</a>
+										</p>
 								</div>
 							</div>
 						</div>';
@@ -123,7 +130,8 @@ require_once('mysqli_connect.php');
 				}
 
 			} else {
-				echo '<div class="row">
+				echo '
+					<div class="row">
 						<div class="col-lg-12">
 							<div class="alert alert-warning">
 								<p align="center">You must upload your Homework Document.</p>
@@ -131,7 +139,8 @@ require_once('mysqli_connect.php');
 								echo 'To go back <a href="assignment_list.php?id=' . $c_id . '">Click Here</a></p>
 							</div>
 						</div>
-					</div></div>';
+					</div>
+				</div>';
 					include('footer.php');
 					exit();
 			}	// End of IF:   if (is_uploaded_file($_FILES['upload']['tmp_name']))
@@ -260,7 +269,7 @@ require_once('mysqli_connect.php');
 			exit();
 		} // End of  IF:  if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) )
 
-		?>	
+		?>
 	</div> <!-- End of main page content  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">  -->
 
 <?php

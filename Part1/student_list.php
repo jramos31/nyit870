@@ -79,25 +79,29 @@ require('pagination_links.php');
 
 						// Get a count of the homework assignments for the course
 						$q_asn_count = "SELECT COUNT(*) FROM assignments WHERE course_id=$id";
-						$r_asn_count = @mysqli_query($dbc, $q_asn_count);					
+						$r_asn_count = @mysqli_query($dbc, $q_asn_count);
 						$row = @mysqli_fetch_array($r_asn_count, MYSQLI_NUM);
 						$asn_count = $row[0];
-						
-						
+
+
 						if (!($asn_count > 0)) {		// No assignments
-							echo '<div class="row">
-								<div class="col-lg-12">
-									<div class="alert alert-warning"><p align="center">There are no assignments for this course.</p></div>
-								</div>
-							</div>';
+							echo '
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="alert alert-warning">
+											<p align="center">There are no assignments for this course.</p>
+										</div>
+									</div>
+								</div>';
 						} else {
-							echo '<div class="row">
-								<div class="col-lg-12">';
+							echo '
+								<div class="row">
+									<div class="col-lg-12">';
 							$course_printed = FALSE;  // Set this flag to false because the top of the table needs to printed only once
 
 
 							while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
-								
+
 								// Get the grades for the submitted homework assignments
 								$q_hw_grade = "SELECT a.asmnt_id, a.asmnt_title, a.content, a.date_due, h.hw_id, h.s_id, h.comments, h.file_path, h.grade, h.date_posted
 													FROM assignments AS a
@@ -105,7 +109,7 @@ require('pagination_links.php');
 													WHERE a.course_id=$id AND h.s_id=" . $row['user_id'] . "
 													ORDER BY a.asmnt_id";
 								$r_hw_grade = @mysqli_query($dbc, $q_hw_grade);
-								
+
 								// Get a count of the homeworks submitted filtered by student and course
 								$q_hw_count = "SELECT COUNT(*)
 														FROM assignments AS a
@@ -113,8 +117,8 @@ require('pagination_links.php');
 														WHERE a.course_id=$id AND h.s_id=" . $row['user_id'] . "";
 								$r_hw_count = @mysqli_query($dbc, $q_hw_count);
 								$row_hw = @mysqli_fetch_array($r_hw_count, MYSQLI_NUM);
-								$hw_count = $row_hw[0];								
-								
+								$hw_count = $row_hw[0];
+
 								if (!$course_printed) {
 
 									echo '<h3>' . $row['my_course'] . '&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;' . $row['semester'] . '</h3><br>';
@@ -125,23 +129,23 @@ require('pagination_links.php');
 									while($index < $asn_count){
 										echo '<th><small>ASGN ' . ($index + 1) . '</small></th>';
 										$index++;
-									}								
+									}
 									echo '<th>AVG</th></tr></thead>
-									<tbody>';	
+									<tbody>';
 									$course_printed = TRUE;
 								}
-								
+
 								// For calculating grade average
-								$grade_sum = 0;  
+								$grade_sum = 0;
 								$hw_graded_count = 0;
-								
+
 								// Display the students and grades for all homework assignments
 								echo '<tr>
 									<td>' . $row['student_name'] . '</td>';
 									$index = 0;
 									while ($index < $asn_count) {
 										while ($row_grades = mysqli_fetch_array($r_hw_grade, MYSQLI_ASSOC)) {
-											
+
 											// When a homework is submitted late, calculate how many days overdue it is:
 											$post_date = new DateTime($row_grades['date_posted']);
 											$due_date = new DateTime($row_grades['date_due']);
@@ -150,7 +154,7 @@ require('pagination_links.php');
 												$diff = $post_date->diff($due_date);
 												$overdue = $diff->format('%m Month(s), %d Day(s), %h Hour(s), %i Min(s)') . ' Late<br>';
 											}
-											
+
 											if ($row_grades['grade'] == NULL) {
 												// Homework has been submitted but has not been graded yet
 												echo '<td><small>' . $row_grades['asmnt_title']. '<br>' . $overdue . ' <a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '&hid=' . $row_grades['hw_id'] .'">Not Graded</a></small></td>';
@@ -159,50 +163,59 @@ require('pagination_links.php');
 												// Homework has been submitted and graded
 												echo '<td><small>' . $row_grades['asmnt_title']. '<br>' . $overdue . ' <a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '&hid=' . $row_grades['hw_id'] .'">' . $row_grades['grade'] . '%</small></a></td>';
 												$hw_graded_count++;
-												$grade_sum += $row_grades['grade']; 							
+												$grade_sum += $row_grades['grade'];
 												$index++;
 											}
-											
+
 										}  // END OF: WHILE ($row_grades = mysqli_fetch_array())
-										
+
 										if ($index <> $asn_count) {
 											// No homework was submitted for this assignments
-											echo '<td><small><i>Not Submitted</i><small></td>'; 
-										} 
+											echo '<td><small><i>Not Submitted</i><small></td>';
+										}
 										$index++;
-									}  // END OF: WHILE ($index < $asn_count)										
-								
+									}  // END OF: WHILE ($index < $asn_count)
+
 								if ($hw_graded_count == 0) {
 									$hw_average = 0;
 								} else {
 									$hw_average = ROUND(($grade_sum / $hw_graded_count), 0);
 								}
-									
-								echo '<td>' . $hw_average . '%</td>'; 
+
+								echo '<td>' . $hw_average . '%</td>';
 							} // END OF MAIN WHILE
-						
-							echo '</tbody>
-							</table></div></div>';
+
+							echo '
+										</tbody>
+									</table>
+								</div>
+							</div>';
 						} // END OF   IF (!($asn_count > 0)) 		// No assignments
 					} // END OF:    IF ( !(mysqli_num_rows($r)>0) )
 
 				}  else {  // No valid course_id, kill the script
-						echo '<div class="row">
-							<div class="col-lg-12">
-								<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-							</div>
-						</div>';
+						echo '
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="alert alert-warning">
+										<p align="center">This page was accessed in error.</p>
+									</div>
+								</div>
+							</div>';
 						include('footer.php');
 						exit();
 				}
 
 			} else {  // User is not an instructor
 
-						echo '<div class="row">
-							<div class="col-lg-12">
-								<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-							</div>
-						</div>';
+						echo '
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="alert alert-warning">
+										<p align="center">This page was accessed in error.</p>
+									</div>
+								</div>
+							</div>';
 						include('footer.php');
 						exit();
 			}// End of main IF

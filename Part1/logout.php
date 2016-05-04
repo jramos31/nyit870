@@ -18,14 +18,15 @@ if (!isset($_SESSION['first_name'])) {
 
 }
 
-// Display logout message
-include("header.php");  // include the header again to display the modified links
 echo '
 		<section id="content">
    			<article id="login">
 				<div class="row">
 					<div class="col-lg-12">
-						<div class="alert alert-success"><h3 align="center">You have been logged out.</h3></div>
+						<div class="alert alert-success">
+							<h3 align="center">You have succesfully logged out! </h3>
+							<h4 align="center"><u><a href="index.php">Return to Home Page</a></u></h4>
+						</div>
 					</div>
 				</div>
 			</article>

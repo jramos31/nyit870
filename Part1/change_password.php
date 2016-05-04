@@ -37,12 +37,12 @@ if (!isset($_SESSION['user_id'])) {
 							$pw = mysqli_real_escape_string($dbc, $_POST['password1']);
 						} else {
 							echo '<div class="row">
-								<div class="col-lg-12">
-									<div class="alert alert-warning">
-										<p align="center">The password you entered did not match the confirmed password!</p>
+									<div class="col-lg-12">
+										<div class="alert alert-warning">
+											<p align="center">The password you entered did not match the confirmed password!</p>
+										</div>
 									</div>
-								</div>
-							</div>';
+								</div>';
 						}
 					} else {
 						echo '<div class="row">
@@ -64,12 +64,12 @@ if (!isset($_SESSION['user_id'])) {
 						if (mysqli_affected_rows($dbc) == 1) { // UPDATE query was successful
 
 							echo '<div class="row">
-								<div class="col-lg-12">
-									<div class="alert alert-success">
-										<h3 align="center">Your password has been successfully changed!</h3>
+									<div class="col-lg-12">
+										<div class="alert alert-success">
+											<h3 align="center">Your password has been successfully changed!</h3>
+										</div>
 									</div>
-								</div>
-							</div>';
+								</div>';
 
 							// Close the database connection, include the page footer and quit the script.
 							mysqli_close($dbc);
@@ -79,13 +79,13 @@ if (!isset($_SESSION['user_id'])) {
 						} else {  // UPDATE query failed
 
 							echo '<div class="row">
-								<div class="col-lg-12">
-									<div class="alert alert-warning">
-										<p align="left">The password was not changed. The new password can not be the same as the current password.
-										If you think there has been an error, please contact your system administrator.</p>
+									<div class="col-lg-12">
+										<div class="alert alert-warning">
+											<p align="left">The password was not changed. The new password can not be the same as the current password.
+											If you think there has been an error, please contact your system administrator.</p>
+										</div>
 									</div>
-								</div>
-							</div>';
+								</div>';
 						}
 
 					} else { // Validation failed
@@ -121,7 +121,7 @@ if (!isset($_SESSION['user_id'])) {
 										name="password2" size="20" maxlength="20" type="password" value="">
 								</div>
 
-								<input type="submit" name="submit" value="Change My Password" class="btn btn-lg btn-success btn-block" />                    </fieldset>
+								<input type="submit" name="submit" value="Change My Password" class="btn btn-lg btn-success btn-block" /> 
 							</form>
 						</div>
 					</div>

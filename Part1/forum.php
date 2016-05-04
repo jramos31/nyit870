@@ -71,39 +71,46 @@ require('pagination_links.php');
             				if (mysqli_num_rows($r) > 0) {
 
             					// Create a table to display the threads
-            					echo '<table class="table table-striped">
-            						<thead><tr>
-            							<th>Topic</th><th>Posted By</th><th>Date First Posted</th><th>Replies</th><th>Last Reply</th>
-            						</tr></thead><tbody>';
+            					echo '
+                                    <table class="table table-striped">
+                						<thead>
+                                            <tr>
+                							    <th>Topic</th><th>Posted By</th><th>Date First Posted</th><th>Replies</th><th>Last Reply</th>
+                						    </tr></thead><tbody>';
 
             					// Fetch each thread
             					while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
-            						echo '<tr>
-            									<td><a href="read_thread.php?id=' . $row['thread_id'] . '">' . $row['subject'] . '</td>
-            									<td>' . $row['email'] . '</td>
-            									<td>' . $row['first_post'] . '</td>
-            									<td>' . $row['responses'] . '</td>
-            									<td>' . $row['last_post'] . '</td>
-            								</tr>' ;
+            						echo '
+                                        <tr>
+        									<td><a href="read_thread.php?id=' . $row['thread_id'] . '">' . $row['subject'] . '</td>
+        									<td>' . $row['email'] . '</td>
+        									<td>' . $row['first_post'] . '</td>
+        									<td>' . $row['responses'] . '</td>
+        									<td>' . $row['last_post'] . '</td>
+            							</tr>' ;
             					}
-            					echo '</tbody></table>';
+            					echo '
+                                        </tbody>
+                                    </table>';
             					mysqli_free_result($r);
 
             				} else {  // No messages
-            						echo '<div class="row">
-            							<div class="col-lg-12">
-            								<div class="alert alert-warning"><p align="center">There are currently no messages in this forum.</p></div>
-            							</div>
-            						</div>';
-            				}
+            						echo '
+                                        <div class="row">
+                							<div class="col-lg-12">
+                								<div class="alert alert-warning"><p align="center">There are currently no messages in this forum.</p></div>
+                							</div>
+                						</div>';
+				                    }
 
             		} else {  // User is not logged
-            				echo '<div class="row">
-            					<div class="col-lg-12">
-            						<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-            					</div>
-            				</div>';
-            		}
+            				echo '
+                                <div class="row">
+                					<div class="col-lg-12">
+                						<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
+                					</div>
+                				</div>';
+    		              }
             ?>
         </article>
 <?php

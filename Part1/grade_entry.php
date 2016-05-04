@@ -37,10 +37,10 @@ include('header.php');
     		} else {  // No valid user_id, kill the script
 
     			echo '<div class="row">
-    				<div class="col-lg-7">
-    					<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-    				</div>
-    			</div>';
+        				<div class="col-lg-7">
+        					<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
+        				</div>
+        			</div>';
     			exit();
     		}
 
@@ -76,7 +76,8 @@ include('header.php');
 
     				if (mysqli_num_rows($r) == 0) { // No results
 
-    					echo '<div class="row">
+    					echo '
+                            <div class="row">
     							<div class="col-lg-7">
     								<div class="alert alert-warning">
     									<p align="center">The grade information could not be processed due to a system error. We apologize for any inconvenience.</p>
@@ -97,14 +98,18 @@ include('header.php');
     				}
     			}	else {
     				// Display the errors
-    				echo '<div class="row">
+    				echo '
+                        <div class="row">
     						<div class="col-lg-7">
     							<div class="alert alert-warning">
-    							<p align="center">The following error(s) were found: </p>';
-    							foreach ($error_msgs as $msg) {
-    								echo " $msg";
+        							<p align="center">The following error(s) were found: </p>';
+        							foreach ($error_msgs as $msg) {
+        								echo " $msg";
     							}
-    				echo '</div></div></div>';
+    				echo '
+                                </div>
+                            </div>
+                        </div>';
     			}
 
     		} // END OF: if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -117,14 +122,15 @@ include('header.php');
     			$row = mysqli_fetch_array($r, MYSQLI_NUM);
 
     			//  Display the form
-    			echo '<div id="grade-panel">
-    					<div class="panel-heading"><h3 class="panel-title">Student Grade</h3>
+    			echo '
+                    <div id="grade-panel">
+    					<div class="panel-heading">
+                            <h3 class="panel-title">Student Grade</h3>
                         </div>
     					<div class="panel-body">
     						<form role="form" action="grade_entry.php" method="post">
     							<div class="form-group">
-    								<input id="grade-form" type="text"
-    									name="hw_grade" size="5" maxlength="5" value="'. $row[2] . '">
+    								<input id="grade-form" type="text" name="hw_grade" size="5" maxlength="5" value="'. $row[2] . '">
     							</div>
     							<input id="submit-button" type="submit" name="submit" value="Submit" >
     							<input type="hidden" name="hw" value="' . $h_id . '" >
@@ -137,9 +143,12 @@ include('header.php');
     				</div>';
 
     		} else {
-    			echo '<div class="row">
-    				<div class="col-lg-12">
-    					<div class="alert alert-warning"><p align="center">This page has been accessed in error.</p></div>
+    			echo '
+                    <div class="row">
+                        <div class="col-lg-12">
+		                    <div class="alert alert-warning">
+                                <p align="center">This page has been accessed in error.</p>
+                           </div>
     				</div>
     			</div>';
     		}

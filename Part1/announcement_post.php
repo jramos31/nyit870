@@ -14,21 +14,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new announcement was submitted
 		$subject = htmlentities($_POST['subject']);
 	} else {
 		$subject = FALSE;
-		echo '<div class="row">
-			<div class="col-lg-12">
-				<div class="alert alert-warning"><p align="center">Please enter a subject for this announcement.</p></div>
-			</div>
-		</div>';
+		echo '
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="alert alert-warning">
+						<p align="center">Please enter a subject for this announcement.</p>
+					</div>
+				</div>
+			</div>';
 	}
 	if (!empty($_POST['body'])) {
 		$body = htmlentities($_POST['body']);
 	} else {
 		$body = FALSE;
-		echo '<div class="row">
-			<div class="col-lg-12">
-				<div class="alert alert-warning"><p align="center">Please enter a message for this announcement.</p></div>
-			</div>
-		</div>';
+		echo '
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="alert alert-warning">
+						<p align="center">Please enter a message for this announcement.</p>
+					</div>
+				</div>
+			</div>';
 	}
 
 	// Validate if a file is being uploaded
@@ -56,13 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new announcement was submitted
 						$file_name = $file_name . '.docx';
 						break;
 					default:
-						echo '<div class="row">
-							<div class="col-lg-12">
-								<div class="alert alert-warning">
-									<p align="center">File must be a MS Word Document</p>
+						echo '
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="alert alert-warning">
+										<p align="center">File must be a MS Word Document</p>
+									</div>
 								</div>
-							</div>
-						</div>';
+							</div>';
 						exit(); // quit the script
 				}
 			}
@@ -80,14 +87,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new announcement was submitted
 
 			// Check that the file size doesn't exceed the maximum limit (524 KB or 524288 Bytes)
 			if ($file_size > $max_file_size) {
-				echo '<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-warning">
-							<p align="center">That file exceeds the maximum allowable file size limit.
-							Please reduce the file size or select a different file and try again.</p>
+				echo '
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">
+									That file exceeds the maximum allowable file size limit.
+									Please reduce the file size or select a different file and try again.
+								</p>
+							</div>
 						</div>
-					</div>
-				</div>';
+					</div>';
 				include('footer.php');
 				exit();
 			}
@@ -97,15 +107,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new announcement was submitted
 
 			// Check if filename aleady exists in the direcotry
 			if (file_exists($target)) {
-				echo '<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-warning">
-							<p align="center">Error: A file with that name already exists.
-							Please try changing the file name before uploading it.
-							</p>
+				echo '
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">
+									Error: A file with that name already exists.
+									Please try changing the file name before uploading it.
+								</p>
+							</div>
 						</div>
-					</div>
-				</div>';
+					</div>';
 				exit();
 			}
 
@@ -115,25 +127,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new announcement was submitted
 				$file_upload = TRUE;    // SUCCESS
 
 			} else {
-				echo '<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-warning">
-							<p align="center">ERROR: FILE WAS NOT UPLOADED!!!</p>
+				echo '
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="alert alert-warning">
+								<p align="center">ERROR: FILE WAS NOT UPLOADED!!!</p>
+							</div>
 						</div>
-					</div>
-				</div>';
+					</div>';
 				exit();
 			}
 
 		} else {  // Wrong file type
-			echo '<div class="row">
-				<div class="col-lg-12">
-					<div class="alert alert-warning">
-						<p align="center">The file you tried to upload was not the correct type.</p>
-						<p align="center">Please upload only MS Word Documents (.doc, .docx)</p>
+			echo '
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-warning">
+							<p align="center">The file you tried to upload was not the correct type.</p>
+							<p align="center">Please upload only MS Word Documents (.doc, .docx)</p>
+						</div>
 					</div>
-				</div>
-			</div>';
+				</div>';
 			include('footer.php');
 			exit();
 		}
@@ -145,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new announcement was submitted
 	if ($subject && $body) {  // Both are validated
 
 		$id = $_POST['course_id'];  // received from the announcement_list.php form as a hidden input
-		
+
 		if ($file_upload) { // A file was uploaded and validated
 			// Add new announcement with "relative" file path into the database
 			$file_path = ANNOUNCE_DIR . '/' . $file_name;
@@ -169,20 +183,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new announcement was submitted
 			exit();
 
 		} else {
-			echo '<div class="row">
-				<div class="col-lg-12">
-					<div class="alert alert-warning"><p align="center">The announcement could not be posted due system error.</p></div>
-				</div>
-			</div>';
+			echo '
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert alert-warning">
+							<p align="center">The announcement could not be posted due system error.</p>
+						</div>
+					</div>
+				</div>';
+			}
 		}
-	}
 
 } else { // If somehow this paged was accessed directly, quit the script
-	echo '<div class="row">
-		<div class="col-lg-12">
-			<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-		</div>
-	</div>';
+	echo '
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="alert alert-warning">
+					<p align="center">This page was accessed in error.</p>
+				</div>
+			</div>
+		</div>';
 	include('footer.php');
 	exit();
 }

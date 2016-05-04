@@ -34,7 +34,7 @@ if (!isset($_SESSION['user_id'])) {
 				if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) {
 
 					$id = $_GET['id'];
-					
+
 					if ($_SESSION['user_level'] == '0') { // User is student
 						// ****   Setup Pagination   ****
 						$display = 5;  // Limit the number of records shown on each page
@@ -88,20 +88,24 @@ if (!isset($_SESSION['user_id'])) {
 						$r = mysqli_query($dbc, $q);
 
 						if (!(mysqli_num_rows($r)>0)) { // No announcements
-							echo '<div class="row">
-								<div class="col-lg-12">
-									<div class="alert alert-warning"><p align="center">No announcements listed.</p></div>
-								</div>
-							</div>';
+							echo '
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="alert alert-warning">
+											<p align="center">No announcements listed.</p>
+										</div>
+									</div>
+								</div>';
 						} else { // Fetch announcements
 
-							echo '<div class="row">
-								<div class="col-lg-12">';
+							echo '
+								<div class="row">
+									<div class="col-lg-12">';
 
 							while ($messages = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 
 								// Display the message
-								echo "<p><b>Course:</b> &nbsp; &nbsp; &nbsp; {$messages['course_num']} {$messages['course_title']} {$messages['section_num']}<br>
+								echo "	<p><b>Course:</b> &nbsp; &nbsp; &nbsp; {$messages['course_num']} {$messages['course_title']} {$messages['section_num']}<br>
 										 <b>Date:</b> &nbsp; &nbsp; &nbsp; {$messages['date_posted']}<br>
 										 <b>Subject:</b> &nbsp; {$messages['subject']}<br>
 										 <b>Message:</b> &nbsp; {$messages['content']}<br>";
@@ -113,16 +117,18 @@ if (!isset($_SESSION['user_id'])) {
 										echo "</p><br>";
 								}
 							} // END WHILE
-							echo '</div></div>';
+							echo '
+								</div>
+									</div>';
 
 						} // END OF:    if ( !(mysqli_num_rows($r)>0) )
 					} //  END OF: if ($_SESSION['user_level'] == '0')  ---- User is student
-						
+
 					// Professor will also be able to post new course announcements
 					// uploading documents pertaining to announcements is optional
 					// *** Show the form ***
 					if ($_SESSION['user_level'] == '1') {
-												
+
 						// ****   Setup Pagination   ****
 						$display = 5;  // Limit the number of records shown on each page
 
@@ -162,86 +168,82 @@ if (!isset($_SESSION['user_id'])) {
 
 						// The function is defined in pagination_links.php
 						show_page_links($pages, $display, $start, $id, "announcement_list_all");
-						
-						
+
+
 						// ####  Posting a new announcement   ############
-						// Need to query to load the drop down list with the teacher's courses 
+						// Need to query to load the drop down list with the teacher's courses
 						$q = "SELECT c.course_id, CONCAT(c.course_num, ' ', c.course_title, ' - ', c.section_num) AS course_name
 									  FROM courses AS c WHERE c.prof_id=$id";
 						$r = @mysqli_query($dbc, $q);
 
 						if (!(mysqli_num_rows($r)>0)) { // No results
-								echo '<div class="row">
-									<div class="col-lg-12">
-										<div class="alert alert-warning"><p align="center">There are no courses listed for you.</p></div>
-									</div>
-								</div>';
+								echo '
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="alert alert-warning"><p align="center">There are no courses listed for you.</p></div>
+										</div>
+									</div>';
 								exit();
 						} else {
 							echo '<p>Select a course to post a new announcement:</p>
-							<form action="announcement_list_all.php?id=' . $id . '" method="post">
-								<select name="course">';
+									<form action="announcement_list_all.php?id=' . $id . '" method="post">
+									<select name="course">';
 								while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
-									echo '<option value="' . $row['course_id'] . '">' . $row['course_name'] . '</option>';
+							echo '<option value="' . $row['course_id'] . '">' . $row['course_name'] . '</option>';
 								}
-								echo '</select>
-							<input type="submit" name="submit" value="GO">
-							</form>';
+							echo '
+								</select>
+									<input type="submit" name="submit" value="GO">
+								</form>';
 						}
 						// Check for form submission (the Drop down list)
 						if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 							if (isset($_POST['course'])) {
-								$cid = $_POST['course'];								
+								$cid = $_POST['course'];
 							}else {
 								$_POST['course'] = '';
-							}						
-						
-							echo '<div class="row">
-								<div class="col-md-6 col-md-offset-2">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Post New Announcement</h3>
-										</div>
-										<div class="panel-body">
-											<form role="form" enctype="multipart/form-data" action="announcement_post.php" method="post">
-												<div class="form-group">
-													<label>Subject:</label>
-													<input class="form-control" placeholder="Enter a subject"
-														name="subject" size="60" maxlength="100" type="text" value="">
-													<br>
-													<label>Announcement:</label>
-													<textarea class="form-control" name="body" row="3"></textarea>
-												</div>
+							}
 
-												<div class="form-group">
-													<!-- instructor may upload MS Word if part of the assignment -->
-													<label>Upload a File (Optional)</label><br>
-													<label>Save File As:</label>
-													<input class="form-control" placeholder="New File Name"
-														name="newfilename" size="60" maxlength="100" type="text" value="">
+							echo '
+								<div class="row">
+									<div class="col-md-6 col-md-offset-2">
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Post New Announcement</h3>
+											</div>
+											<div class="panel-body">
+												<form role="form" enctype="multipart/form-data" action="announcement_post.php" method="post">
+													<div class="form-group">
+														<label>Subject:</label>
+														<input class="form-control" placeholder="Enter a subject"
+															name="subject" size="60" maxlength="100" type="text" value="">
+														<br>
+														<label>Announcement:</label>
+														<textarea class="form-control" name="body" row="3"></textarea>
+													</div>
 
-													<label>Select File:</label>
-													<input class="form-control" name="upload" type="file">
-
-													<label><small>Select a MS Word Document (.doc, .docx) </small></label>
-													<input name="MAX_FILE_SIZE" type="hidden" value="524288">
-
-													<input name="course_id" type="hidden" value="' . $id .'">
-
-												</div>
-												<input type="submit" name="submit" value="Submit" class="btn btn-lg btn-success btn-block">
-											</form>
+													<div class="form-group">
+														<!-- instructor may upload MS Word if part of the assignment -->
+														<label>Upload a File (Optional)</label><br>
+														<label>Save File As:</label>
+														<input class="form-control" placeholder="New File Name"
+															name="newfilename" size="60" maxlength="100" type="text" value="">
+														<label>Select File:</label>
+														<input class="form-control" name="upload" type="file">
+														<label><small>Select a MS Word Document (.doc, .docx) </small></label>
+														<input name="MAX_FILE_SIZE" type="hidden" value="524288">
+														<input name="course_id" type="hidden" value="' . $id .'">
+													</div>
+													<input type="submit" name="submit" value="Submit" class="btn btn-lg btn-success btn-block">
+												</form>
+											</div>
 										</div>
 									</div>
-								</div>
-							</div>';
-						}
+								</div>';
+							}
 						// ####  END OF: Posting a new announcement   ############
-						
-						
-						
-						
+
 						// Build the query to display all posted announcements
 						$q = "SELECT a.ann_id, a.subject, a.content, a.file_path, a.date_posted, c.course_num, c.course_title, c.section_num
 								FROM announcements AS a
@@ -252,15 +254,19 @@ if (!isset($_SESSION['user_id'])) {
 						$r = mysqli_query($dbc, $q);
 
 						if (!(mysqli_num_rows($r)>0)) { // No announcements
-							echo '<div class="row">
-								<div class="col-lg-12">
-									<div class="alert alert-warning"><p align="center">No announcements listed.</p></div>
-								</div>
-							</div>';
+							echo '
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="alert alert-warning">
+											<p align="center">No announcements listed.</p>
+										</div>
+									</div>
+							  	</div>';
 						} else { // Fetch announcements
 
-							echo '<div class="row">
-								<div class="col-lg-12">';
+							echo '
+								<div class="row">
+									<div class="col-lg-12">';
 
 							while ($messages = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 
@@ -270,26 +276,28 @@ if (!isset($_SESSION['user_id'])) {
 										 <b>Date:</b> &nbsp; &nbsp; &nbsp; {$messages['date_posted']}<br>
 										 <b>Subject:</b> &nbsp; {$messages['subject']}<br>
 										 <b>Message:</b> &nbsp; {$messages['content']}<br>";
-								if ( !($messages['file_path'] == NULL) ) {
-										// if instructor uploaded a document associated with the assignment,
-										// display the link to that document
-										echo "<b>Document:</b> &nbsp; <a href=\"{$messages['file_path']}\">Click Here</a></p><br>";
-								} else {
-										echo "</p><br>";
-								}
-							} // END WHILE
-							echo '</div></div>';
-
+										if ( !($messages['file_path'] == NULL) ) {
+												// if instructor uploaded a document associated with the assignment,
+												// display the link to that document
+												echo "<b>Document:</b> &nbsp; <a href=\"{$messages['file_path']}\">Click Here</a></p><br>";
+										} else {
+												echo "</p><br>";
+										}
+									} // END WHILE
+								echo '
+									</div>
+								</div>';
 						} // END OF:    if ( !(mysqli_num_rows($r)>0) )
-							
 					}
-
 				}  else {  // No valid course_id, kill the script
-					echo '<div class="row">
-						<div class="col-lg-12">
-							<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-						</div>
-					</div>';
+					echo '
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="alert alert-warning">
+									<p align="center">This page was accessed in error.</p>
+								</div>
+							</div>
+						</div>';
 					include('footer.php');
 					exit();
 				} // End of main IF

@@ -68,17 +68,21 @@ require('pagination_links.php');
         				$r = mysqli_query($dbc, $q);
 
         				if (!(mysqli_num_rows($r)>0)) { // No assignments
-        					echo '<div class="row">
-        						<div class="col-lg-12">
-        							<div class="alert alert-warning"><p align="center">There are no assignments for this course.</p></div>
-        						</div>
-        					</div>';
+        					echo '
+                                <div class="row">
+    						        <div class="col-lg-12">
+        							    <div class="alert alert-warning">
+                                            <p align="center">There are no assignments for this course.</p>
+                                        </div>
+				                    </div>
+        					    </div>';
         				} else { // Fetch assignments
 
         					// *** Show Posted Assignments ***
-        					echo '<div class="row">
-        						<div class="col-lg-12">
-        						<div class="panel-body">';
+        					echo '
+                                <div class="row">
+			                        <div class="col-lg-12">
+					                    <div class="panel-body">';
 
         					$course_printed = FALSE;  // Set this flag to false because the course name for this assignments
         											  // only needs to printed once since it serves as a list heading,
@@ -91,16 +95,16 @@ require('pagination_links.php');
         							&nbsp; &nbsp; &nbsp; &nbsp; Term: {$messages['semester']}</h3><br>";
         							$course_printed = TRUE;
         						}
-								
+
 								// Format the dates
 								$posted_on = new DateTime($messages['date_posted']);
 								$posted_on = $posted_on->format('m/d/Y');
 								$due_on = new DateTime($messages['date_due']);
 								$due_on = $due_on->format('m/d/Y');
-								
+
         						// Display the message(s)
-        						echo "<p><b>Date Posted:</b> &nbsp; &nbsp; &nbsp; {$posted_on}&nbsp; &nbsp; &nbsp; 
-										 <b>Due On: </b> &nbsp; &nbsp; &nbsp; {$due_on} &nbsp; &nbsp; &nbsp; 
+        						echo "<p><b>Date Posted:</b> &nbsp; &nbsp; &nbsp; {$posted_on}&nbsp; &nbsp; &nbsp;
+										 <b>Due On: </b> &nbsp; &nbsp; &nbsp; {$due_on} &nbsp; &nbsp; &nbsp;
         								 <b>Assignment:</b> &nbsp; {$messages['asmnt_title']} &nbsp; &nbsp; &nbsp; <br>
         								 <b>Comment:</b> &nbsp; {$messages['content']}<br>";
         						if ( !($messages['file_path'] == NULL) ) {
@@ -111,7 +115,10 @@ require('pagination_links.php');
         							echo "<br><br></p>";
         						}
         					} // END OF: while
-        					echo '</div></div></div>';
+        					echo '
+                                    </div>
+                                </div>
+                            </div>';
 
         				} 	// END OF:  		if ( !(mysqli_num_rows($r)>0) )
 
@@ -127,9 +134,10 @@ require('pagination_links.php');
 						$new_dt = new DateTime($dt_str);
 						$new_dt = $new_dt->format('Y-m-d H:i:s');
 						*/
-						
+
         				// *** Show Form ***
-        				echo '<div class="row">
+        				echo '
+                            <div class="row">
         						<div class="col-md-6 col-md-offset-2">
         							<div class="panel panel-default">
         								<div class="panel-heading">
@@ -174,7 +182,7 @@ require('pagination_links.php');
 
         			} // END OF: if ($_SESSION['user_level'] is a TEACHER)
 
-						
+
         			if ($_SESSION['user_level'] == '0') {   // User is a STUDENT
 
         				// Build the query
@@ -185,17 +193,21 @@ require('pagination_links.php');
         				$r = mysqli_query($dbc, $q);
 
         				if (!(mysqli_num_rows($r)>0)) { // No assignments
-        					echo '<div class="row">
-        						<div class="col-lg-12">
-        							<div class="alert alert-warning"><p align="center">There are no assignments for this course.</p></div>
-        						</div>
-        					</div>';
+        					echo '
+                                <div class="row">
+    						        <div class="col-lg-12">
+    							        <div class="alert alert-warning">
+                                            <p align="center">There are no assignments for this course.</p>
+                                        </div>
+					                </div>
+        					    </div>';
         				} else { // Fetch Assignments
 
         					// *** Show Posted Assignments ***
-        					echo '<div class="row">
-        						<div class="col-lg-12">
-        						<div class="panel-body">';
+        					echo '
+                                <div class="row">
+        						    <div class="col-lg-12">
+        						        <div class="panel-body">';
 
         					$course_printed = FALSE;  // Set this flag to false because the course name for this assignments
         											  // only needs to printed once since it serves as a list heading,
@@ -209,7 +221,7 @@ require('pagination_links.php');
 
         							$course_printed = TRUE;
         						}
-								
+
 								// Format the dates
 								$posted_on = new DateTime($messages['date_posted']);
 								$posted_on = $posted_on->format('m/d/Y');
@@ -219,7 +231,7 @@ require('pagination_links.php');
         						// Display the message(s) and link to the homework upload form.
         						// The link will pass the value of asmnt_id and asmnt_title to the form.
         						echo "<p><b>Date Posted:</b> &nbsp; &nbsp; &nbsp; {$posted_on}&nbsp; &nbsp; &nbsp;
-										 <b>Due On: </b> &nbsp; &nbsp; &nbsp; {$due_on} &nbsp; &nbsp; &nbsp; 
+										 <b>Due On: </b> &nbsp; &nbsp; &nbsp; {$due_on} &nbsp; &nbsp; &nbsp;
         								 <b>Assignment:</b> &nbsp; {$messages['asmnt_title']} <br>
         								 <b>Comment:</b> &nbsp; {$messages['content']}<br>";
         						echo '<a href="homework_post.php?id=' . $messages['asmnt_id']  . '&title=' . urlencode($messages['asmnt_title']) . '&cid='. $id .'">Submit This Assignment</a><br>';
@@ -232,23 +244,28 @@ require('pagination_links.php');
         						}
         					}
 
-        					echo '</div></div></div>';
+        					echo '
+                                        </div>
+                                    </div>
+                                </div>';
         				} // END OF: Else Fetch Assignments
 
         			}  // END OF: if ($_SESSION['user_level'] is a STUDENT
 
         		}  else {  // No valid course_id, kill the script
-        			echo '<div class="row">
-        				<div class="col-lg-12">
-        					<div class="alert alert-warning"><p align="center">This page was accessed in error.</p></div>
-        				</div>
-        			</div>';
+        			echo '
+                        <div class="row">
+    				        <div class="col-lg-12">
+			                    <div class="alert alert-warning">
+                                    <p align="center">This page was accessed in error.</p>
+                                </div>
+                            </div>
+                        </div>';
         			include('footer.php');
         			exit();
         		} // End of main IF
         		?>
         </article>
-
 <?php
 include('footer.php');
 ?>
