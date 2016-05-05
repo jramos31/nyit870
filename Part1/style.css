@@ -89,6 +89,11 @@ li {
     padding-bottom:5px;
 }
 
+.img-responsive {
+    width: 65%;
+
+}
+
 /** header **/
 header {
     padding:30px 17px 30px;
@@ -290,6 +295,8 @@ footer img {
 }
 
 #submit-button {
+    display: block;
+    text-align: center;
     width: 25%;
     border-radius: 0;
     background-color: #292c2f;
@@ -298,6 +305,84 @@ footer img {
     border: 0px none;
     padding: 15px 0;
     letter-spacing: 0.15em;
+    border-radius: 10px;
+}
+
+#submit-button2 {
+    display: block;
+    text-align: center;
+    width: 25%;
+    border-radius: 0;
+    background-color: #292c2f;
+    color: #FFF;
+    text-transform: uppercase;
+    border: 0px none;
+    padding: 15px 0;
+    letter-spacing: 0.15em;
+    margin-top: 25px;
+    border-radius: 10px;
+}
+
+#submit-button3 {
+    display: block;
+    text-align: center;
+    width: 7%;
+    font-size: 15px;
+    border-radius: 0;
+    background-color: #292c2f;
+    color: #FFF;
+    text-transform: uppercase;
+    border: 0px none;
+    padding: 10px 0;
+    letter-spacing: 0.15em;
+    margin-top: 25px;
+    border-radius: 10px;
+}
+
+
+select {
+    font-size: 16px;
+    position: relative;
+    display: inline-block;
+}
+
+#select-styled select {
+    outline: none;
+    -webkit-appearance: none;
+    display: block;
+    padding: 1.2em 3em 1.3em 1.5em;
+    margin: 0;
+
+    transition: border-color 0.2s;
+    border: 5px solid #292c2f;
+    border-radius: 5px;
+
+    background: #fff;
+    color: #555;
+    line-height: normal;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.thread-border {
+    width: 30%;
+    margin: 15px auto 0px 5px;
+    border: 5px solid #292c2f;
+    transition: border-color 0.2s;
+    border-radius: 5px;
+}
+
+.thread-border h2 {
+    margin: 15px auto 20px 10px;
+}
+
+.thread-border p{
+    margin: 15px auto 20px 10px;
+}
+
+#grade-title {
+    font-size: 25px;
 }
 
 #grade-panel {

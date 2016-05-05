@@ -36,7 +36,7 @@ if ($_SESSION['user_level'] == '0') { // User is Student
 		echo '
 		<!--  ****** Start of Page Content ******  -->
 			<section id="content">
-		   		<article>
+		   		<article id="login">
 					<h3 class="sub-header"><p>' . $fn . ' ' . $ln. '\'s Courses</h3>
 					<div class="table-responsive">
 						<table class="table table-striped">';
