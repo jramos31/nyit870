@@ -21,7 +21,7 @@ session_start();
         <section id="body" class="width">
             <aside id="sidebar" class="column-left">
                 <header>
-                    <h1><a href="#">D&J's Board</a></h1>
+                    <h1><a href="hboard.php">D&J's Board</a></h1>
                     <h2>By: Dickson and Jean</h2>
                 </header>
                     <nav id="mainnav">
