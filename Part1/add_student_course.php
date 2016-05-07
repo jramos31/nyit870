@@ -23,14 +23,9 @@ require_once('mysqli_connect.php');
                             // Array for holding relevent error messages
                             $error_msgs = array();
                            
+                            // Drop downlist values
                             $stu_usr_id = $_POST['student'];
-                            $first_nm = $_POST['first_nm'];
-                            $last_nm = $_POST['last_nm'];   
-                            $course_id = $_POST['course'];
-                            $c_title = $_POST['course_title'];
-                            $sec_num = $_POST['section_num'];
-                            $sem = $_POST['semester']; 
-                            $course_name = $_POST['course_name'];
+                            $course_id = $_POST['course'];                            
                             
                             // Make sure the student isn't already assigned to that course
                             $q = "SELECT stud_id FROM students
@@ -47,14 +42,15 @@ require_once('mysqli_connect.php');
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="alert alert-success">
-                                                <p align="center">This operation was successful.</p>
-                                                <p align="center">Student: ' . 
-                                                 $first_nm . ' ' . $last_nm . '</p>
-                                                <p align="center">Added To: ' .
-                                                $course_name . ' ' . $c_title . ' ' . $sec_num . ' ' . $sem . '</p>
+                                                <p align="center">Student Added!<br>
+                                                    <a href="add_student_course.php">Click here to Return</a>
+                                                </p>
                                             </div>
                                         </div>
-                                    </div>';
+                                    </div></article></section>';
+                                    include('footer.php');
+                                    exit();
+                                    
                                 } else {
                                     $error_msgs[] = '<p align="center">This record could not be entered due to system error.</p>';
                                 }                                
@@ -111,9 +107,7 @@ require_once('mysqli_connect.php');
                                                     <label>Select a Student:</label>
                                                         <select name="student">';
                                                         while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
-                                                            echo '<option value="' . $row['user_id'] . '">' . $row['first_name'] . " " . $row['last_name'] . '</option>';
-                                                            $f_name = $row['first_name'];
-                                                            $l_name = $row['last_name'];    
+                                                            echo '<option value="' . $row['user_id'] . '">' . $row['first_name'] . " " . $row['last_name'] . '</option>';                                                               
                                                         }
                                                     echo '</select>
                                                     
@@ -129,21 +123,11 @@ require_once('mysqli_connect.php');
                                                     <Label>Select a Course:</label>
                                                     <select name="course">';
                                                     while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
-                                                        echo '<option value="' . $row['course_id'] . '">' . $row['course_num'] . " " . $row['course_title'] . " " . $row['section_num'] . " - " . $row['semester'] . '</option>';
-                                                        $c_num = $row['course_num'];  
-                                                        $c_title = $row['course_title'];
-                                                        $sec_num = $row['section_num'];
-                                                        $sem = $row['semester'];   
+                                                        echo '<option value="' . $row['course_id'] . '">' . $row['semester'] . " - " . $row['course_num'] . " " . $row['course_title'] . " " . $row['section_num'] . '</option>';                                                           
                                                     }
                                                     echo '</select>
                                                            
-                                                </div>
-                                                <input type="hidden" name="first_nm" value="' . $f_name . '">
-                                                <input type="hidden" name="last_nm" value="' . $l_name . '">
-                                                <input type="hidden" name="course_name" value="' . $c_num . '">
-                                                <input type="hidden" name="course_title" value="' . $c_title . '">
-                                                <input type="hidden" name="section_num" value="' . $sec_num . '">
-                                                <input type="hidden" name="semester" value="' . $sem . '">
+                                                </div>                                                
                                                 <input type="submit" name="submit" value="Add This Student to this Course" class="btn btn-lg btn-success btn-block">
                                                 </form>
                                             </div>
