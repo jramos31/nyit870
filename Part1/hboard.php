@@ -38,5 +38,6 @@ include('header.php');
                         <a href="view_grades.php"><img src="http://manch.co.in/site_media/img/homepage/test-prep-icon.png" class="img-responsive" alt="Grades Image"></a>
                         <a href="view_grades.php" class="button button-reversed">GRADES</a>
                     </div>
-                </article>
+                </div>
+            </article>
 <?php include('footer.php'); ?>

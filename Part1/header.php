@@ -58,6 +58,8 @@ session_start();
                             $id = $_SESSION['user_id'];
                             echo '
     							<li><a href="view_users.php">View All Users</a></li>
+                                <li><a href="add_new_course.php">Add New Course</a></li>
+                                <li><a href="add_student_course.php">Add Student to Course</a></li>
                                 <li><a href="change_password.php">Change Password</a></li>
                                 <li><a href="logout.php">Logout</a></li>';
                             }

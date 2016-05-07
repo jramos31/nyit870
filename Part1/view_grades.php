@@ -47,17 +47,19 @@ if (!isset($_SESSION['user_id'])) {   // User not logged in
 											exit();
 									} else {
 										echo '
-											<p>Select a course to see your grades:</p>
+											<p id="grade-title">Click the box below to select course:</p>
 											<form action="view_grades.php" method="post">
-												<select name="course">';
-												$cnames = array();
-												while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
-													$cnames[$row['course_id']] = $row['course_name'];
-													echo '<option value="' . $row['course_id'] . '">' . $row['course_name'] . '</option>';
-												}
-											echo '
-												</select>
-												<input type="submit" name="submit" value="GO">
+												<div id="select-styled">
+													<select name="course">';
+														$cnames = array();
+														while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
+															$cnames[$row['course_id']] = $row['course_name'];
+															echo '<option value="' . $row['course_id'] . '">' . $row['course_name'] . '</option>';
+														}
+													echo '
+													</select>
+												</div>
+												<input type="submit" name="submit" value="GO" id="submit-button3">
 											</form>';
 										}
 

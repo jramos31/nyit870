@@ -234,7 +234,7 @@ require('pagination_links.php');
 										 <b>Due On: </b> &nbsp; &nbsp; &nbsp; {$due_on} &nbsp; &nbsp; &nbsp;
         								 <b>Assignment:</b> &nbsp; {$messages['asmnt_title']} <br>
         								 <b>Comment:</b> &nbsp; {$messages['content']}<br>";
-        						echo '<a href="homework_post.php?id=' . $messages['asmnt_id']  . '&title=' . urlencode($messages['asmnt_title']) . '&cid='. $id .'">Submit This Assignment</a><br>';
+        						echo '<a href="homework_post.php?id=' . $messages['asmnt_id']  . '&title=' . urlencode($messages['asmnt_title']) . '&cid='. $id .'"id="submit-button2">Submit This Assignment</a><br>';
         						if ( !($messages['file_path'] == NULL) ) {
         							// if instructor uploaded a document associated with the assignment,
         							// display the link to that document

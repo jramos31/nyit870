@@ -9,7 +9,7 @@ require('pagination_links.php');
 
 		<!--  ****** Start of Page Content ******  -->
     <section id="content">
-        <article>
+        <article id="login">
         	<h1 class="page-header">D&J Blog</h1><br />
 
             <?php

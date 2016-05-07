@@ -16,9 +16,6 @@ require('pagination_links.php');
 
             	$tid = $_GET['id'];
 
-
-
-
             	// ****   Setup Pagination   ****
 
             	$display = 5;  // Limit the number of records shown on each page
@@ -81,14 +78,13 @@ require('pagination_links.php');
             			if(!$topic_printed) {
 
             				// Print the thread topic:
-            				echo "<h2>{$messages['subject']}</h2>\n";
+            				echo "<div class='thread-border'><h2>{$messages['subject']}</h2>\n";
             				$topic_printed = TRUE;
             			}
 
             			// Print each message:
-            			echo "<p>{$messages['email']} ({$messages['posted']})<br>{$messages['message']}</p><br>\n";
+            			echo "<p>{$messages['email']} ({$messages['posted']})<br>{$messages['message']}</p><br></div>\n";
             		}
-
 
 
             		// Display form for posting a message
@@ -107,5 +103,5 @@ require('pagination_links.php');
             } // END OF:  if(isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT, array('min_range' => 1)) )
             ?>
         </article>
-        
+
 <?php include('footer.php'); ?>
