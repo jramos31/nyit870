@@ -27,17 +27,15 @@ session_start();
                     <nav id="mainnav">
                         <ul>
                             <?php
-                            if (isset($_SESSION['user_id'])) {  // User is logged in
-                            echo '
-                                <li><a href="hboard.php">Home</a></li>
-								<li><a href="forum.php">Discussion Board</a></li>';
-								if (basename($_SERVER['PHP_SELF']) == 'forum.php') {
-									echo '<li><a href="post.php">Post a New Thread</a></li>';
-								}
+                            if (isset($_SESSION['user_id'])) {  // User is logged in;
+
                             if ($_SESSION['user_level'] == '0') { // User is Student
     						$id = $_SESSION['user_id'];
     						echo '
-    							<li><a href="announcement_list_all.php?id=' . $id . '">Announcements</a></li>
+                                <p class= "account-header"> Student Account </p>
+                                <li><a href="hboard.php">Home</a></li>
+                                <li><a href="forum.php">Discussion Board</a></li>
+                                <li><a href="announcement_list_all.php?id=' . $id . '">Announcements</a></li>
                                 <li><a href="view_grades.php">My Grades</a></li>
                                 <li><a href="view_courses.php">My Courses</a></li>
                                 <li><a href="change_password.php">Change Password</a></li>
@@ -47,6 +45,9 @@ session_start();
                             if ($_SESSION['user_level'] == '1') { // User is Professor/Faculty
                             $id = $_SESSION['user_id'];
                             echo '
+                                <p class= "account-header"> Faculty Account </p>
+                                <li><a href="hboard.php">Home</a></li>
+                                <li><a href="forum.php">Discussion Board</a></li>
                                 <li><a href="announcement_list_all.php?id=' . $id . '">Announcements</a></li>
                                 <li><a href="view_grades.php">Student Grades</a></li>
     							<li><a href="view_courses.php">My Courses</a></li>
@@ -57,6 +58,9 @@ session_start();
                             if ($_SESSION['user_level'] == '2') { // User is Administrator
                             $id = $_SESSION['user_id'];
                             echo '
+                                <p class= "account-header"> Administrator Account </p>
+                                <li><a href="hboard.php">Home</a></li>
+                                <li><a href="forum.php">Discussion Board</a></li>
     							<li><a href="view_users.php">View All Users</a></li>
                                 <li><a href="add_new_course.php">Add New Course</a></li>
                                 <li><a href="add_student_course.php">Add Student to Course</a></li>

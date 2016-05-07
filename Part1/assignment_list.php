@@ -103,10 +103,11 @@ require('pagination_links.php');
 								$due_on = $due_on->format('m/d/Y');
 
         						// Display the message(s)
-        						echo "<p><b>Date Posted:</b> &nbsp; &nbsp; &nbsp; {$posted_on}&nbsp; &nbsp; &nbsp;
-										 <b>Due On: </b> &nbsp; &nbsp; &nbsp; {$due_on} &nbsp; &nbsp; &nbsp;
-        								 <b>Assignment:</b> &nbsp; {$messages['asmnt_title']} &nbsp; &nbsp; &nbsp; <br>
-        								 <b>Comment:</b> &nbsp; {$messages['content']}<br>";
+        						echo "
+                                        <p><b>Date Posted:</b> &nbsp; &nbsp; &nbsp; {$posted_on}&nbsp; &nbsp; &nbsp;
+										<b>Due On: </b> &nbsp; &nbsp; &nbsp; {$due_on} &nbsp; &nbsp; &nbsp;
+        								<b>Assignment:</b> &nbsp; {$messages['asmnt_title']} &nbsp; &nbsp; &nbsp; <br>
+        								<b>Comment:</b> &nbsp; {$messages['content']}<br>";
         						if ( !($messages['file_path'] == NULL) ) {
         							// if instructor uploaded a document associated with the assignment,
         							// display the link to that document

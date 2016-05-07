@@ -161,7 +161,7 @@ require('pagination_links.php');
 												$index++;
 											} else {
 												// Homework has been submitted and graded
-												echo '<td><small>' . $row_grades['asmnt_title']. '<br>' . $overdue . ' <a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '&hid=' . $row_grades['hw_id'] .'">' . $row_grades['grade'] . '%</small></a></td>';
+												echo '<td><small>' . $row_grades['asmnt_title']. '<br>' . $overdue . ' <a href="view_grades.php?uid=' . $row['user_id'] . '&sname=' . $row['student_name'] . '&cid=' . $id . '&cname=' . $row['my_course'] . '&hid=' . $row_grades['hw_id'] .'">' . $row_grades['grade'] . '/10</small></a></td>';
 												$hw_graded_count++;
 												$grade_sum += $row_grades['grade'];
 												$index++;
@@ -182,7 +182,7 @@ require('pagination_links.php');
 									$hw_average = ROUND(($grade_sum / $hw_graded_count), 0);
 								}
 
-								echo '<td>' . $hw_average . '%</td>';
+								echo '<td>' . $hw_average . '/100</td>';
 							} // END OF MAIN WHILE
 
 							echo '
@@ -218,9 +218,9 @@ require('pagination_links.php');
 							</div>';
 						include('footer.php');
 						exit();
-			}// End of main IF
+			} // End of main IF
 			mysqli_close($dbc);
 			?>
 	</article>
 
-<?php include('footer.php') ?>
+<?php include('footer.php'); ?>
