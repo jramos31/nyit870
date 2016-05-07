@@ -7,7 +7,8 @@ include('header.php');
 ?>
 
 		<!--  ****** Start of Page Content ******  -->
-
+        <section id="content">
+            <article>
         <h1 class="page-header">Delete Announcements</h1><br />
 
 		<?php

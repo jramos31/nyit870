@@ -45,8 +45,10 @@ a.button {
 }
 
 a.button-reversed {
+    width: 80%;
+    display: block;
     background-color: #333;
-    margin-left: 50px;
+    text-align: center;
 }
 
 a.button:hover {
@@ -91,7 +93,128 @@ li {
 
 .img-responsive {
     width: 65%;
+}
 
+
+#submit-button {
+    display: block;
+    text-align: center;
+    width: 25%;
+    border-radius: 0;
+    background-color: #292c2f;
+    color: #FFF;
+    text-transform: uppercase;
+    border: 0px none;
+    padding: 15px 0;
+    letter-spacing: 0.15em;
+    border-radius: 10px;
+}
+
+#submit-button2 {
+    display: block;
+    text-align: center;
+    width: 25%;
+    border-radius: 0;
+    background-color: #292c2f;
+    color: #FFF;
+    text-transform: uppercase;
+    border: 0px none;
+    padding: 15px 0;
+    letter-spacing: 0.15em;
+    margin-top: 25px;
+    border-radius: 10px;
+}
+
+#submit-button3 {
+    display: block;
+    text-align: center;
+    width: 7%;
+    font-size: 15px;
+    border-radius: 0;
+    background-color: #292c2f;
+    color: #FFF;
+    text-transform: uppercase;
+    border: 0px none;
+    padding: 10px 0;
+    letter-spacing: 0.15em;
+    margin-top: 25px;
+    border-radius: 10px;
+}
+
+
+select {
+    font-size: 16px;
+    position: relative;
+    display: inline-block;
+}
+
+#select-styled select {
+    outline: none;
+    -webkit-appearance: none;
+    display: block;
+    padding: 1.2em 3em 1.3em 1.5em;
+    margin: 0;
+
+    transition: border-color 0.2s;
+    border: 5px solid #292c2f;
+    border-radius: 5px;
+
+    background: #fff;
+    color: #555;
+    line-height: normal;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.thread-border {
+    width: 60%;
+    margin: 15px auto 30px 5px;
+    border: 2px solid #292c2f;
+    transition: border-color 0.2s;
+    border-radius: 15px;
+}
+
+.thread-border h2 {
+    margin: 15px auto 20px 10px;
+}
+
+.thread-border p {
+    font-size: 20px;
+    margin: 15px auto 0px 10px;
+}
+
+#grade-title {
+    font-size: 25px;
+}
+
+#grade-panel {
+    width: 40%;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+#grade-form {
+    display: block;
+    width: 25%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
 /** header **/
@@ -256,20 +379,21 @@ footer img {
     display: block;
 }
 
+/*Mobile Display*/
 @media screen and (max-width: 740px) {
     body {
         font-size: 0.9em;
-        }
+    }
 
     .width {
         width:auto;
         padding-left: 10px;
         padding-right: 10px;
-        }
+    }
 
     .column-left, .column-right {
         margin:0px;
-        }
+    }
 
     header h1, header h2, nav#mainnav li a { text-align:center; }
 
@@ -278,138 +402,10 @@ footer img {
         float: none;
         width: auto;
         margin-left: 0;
-        }
-}
+    }
 
-@media screen and (max-width: 540px) {
-
-    body { font-size: 0.8em; }
-
-    header, header h1 a, header h1 a:hover {
-        text-align: center;
-        padding: 10px 0 0 0;
-        font-size: 1.1em;
-        }
-
-        nav#mainnav ul li a { margin-top: 0; padding: 1em; }
-}
-
-#submit-button {
-    display: block;
-    text-align: center;
-    width: 25%;
-    border-radius: 0;
-    background-color: #292c2f;
-    color: #FFF;
-    text-transform: uppercase;
-    border: 0px none;
-    padding: 15px 0;
-    letter-spacing: 0.15em;
-    border-radius: 10px;
-}
-
-#submit-button2 {
-    display: block;
-    text-align: center;
-    width: 25%;
-    border-radius: 0;
-    background-color: #292c2f;
-    color: #FFF;
-    text-transform: uppercase;
-    border: 0px none;
-    padding: 15px 0;
-    letter-spacing: 0.15em;
-    margin-top: 25px;
-    border-radius: 10px;
-}
-
-#submit-button3 {
-    display: block;
-    text-align: center;
-    width: 7%;
-    font-size: 15px;
-    border-radius: 0;
-    background-color: #292c2f;
-    color: #FFF;
-    text-transform: uppercase;
-    border: 0px none;
-    padding: 10px 0;
-    letter-spacing: 0.15em;
-    margin-top: 25px;
-    border-radius: 10px;
-}
-
-
-select {
-    font-size: 16px;
-    position: relative;
-    display: inline-block;
-}
-
-#select-styled select {
-    outline: none;
-    -webkit-appearance: none;
-    display: block;
-    padding: 1.2em 3em 1.3em 1.5em;
-    margin: 0;
-
-    transition: border-color 0.2s;
-    border: 5px solid #292c2f;
-    border-radius: 5px;
-
-    background: #fff;
-    color: #555;
-    line-height: normal;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-
-.thread-border {
-    width: 30%;
-    margin: 15px auto 0px 5px;
-    border: 5px solid #292c2f;
-    transition: border-color 0.2s;
-    border-radius: 5px;
-}
-
-.thread-border h2 {
-    margin: 15px auto 20px 10px;
-}
-
-.thread-border p{
-    margin: 15px auto 20px 10px;
-}
-
-#grade-title {
-    font-size: 25px;
-}
-
-#grade-panel {
-    width: 40%;
-    margin-bottom: 20px;
-    background-color: #fff;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
-}
-
-#grade-form {
-    display: block;
-    width: 25%;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    .img-responsive {
+        margin-top: 70px;
+            width: 65%;
+    }
 }

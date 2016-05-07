@@ -78,12 +78,12 @@ require('pagination_links.php');
             			if(!$topic_printed) {
 
             				// Print the thread topic:
-            				echo "<div class='thread-border'><h2>{$messages['subject']}</h2>\n";
+            				echo "<div class='thread-border'><h2>Subject: <u>{$messages['subject']}</u></h2></div>\n";
             				$topic_printed = TRUE;
             			}
 
             			// Print each message:
-            			echo "<p>{$messages['email']} ({$messages['posted']})<br>{$messages['message']}</p><br></div>\n";
+            			echo "<div class='thread-border'><p>{$messages['email']} ({$messages['posted']})<br>{$messages['message']}</p><br></div>\n";
             		}
 
 
