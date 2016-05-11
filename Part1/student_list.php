@@ -171,7 +171,10 @@ require('pagination_links.php');
 
 										if ($index <> $asn_count) {
 											// No homework was submitted for this assignments
-											echo '<td><small><i>Not Submitted</i><small></td>';
+											echo '<td><small>Not Submitted</br><i>Will Result a 0</i><small></td>';
+											$hw_graded_count++;
+											$grade_sum += $row_grades['grade'];
+											$index++;
 										}
 										$index++;
 									}  // END OF: WHILE ($index < $asn_count)
@@ -218,9 +221,9 @@ require('pagination_links.php');
 							</div>';
 						include('footer.php');
 						exit();
-			}// End of main IF
+			} // End of main IF
 			mysqli_close($dbc);
 			?>
 	</article>
 
-<?php include('footer.php') ?>
+<?php include('footer.php'); ?>

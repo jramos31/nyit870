@@ -207,5 +207,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {  // A new announcement was submitted
 	exit();
 }
 
-include('footer.php');
+  include('footer.php');
 ?>

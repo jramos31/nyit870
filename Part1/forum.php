@@ -11,7 +11,6 @@ require('pagination_links.php');
     <section id="content">
         <article id="login">
         	<h1 class="page-header">D&J Blog</h1><br />
-
             <?php
             		if (isset($_SESSION['user_id'])) {  // User is logged in
 
@@ -112,6 +111,7 @@ require('pagination_links.php');
                 				</div>';
     		              }
             ?>
+            <a id="new-thread" href="post.php">START A NEW TOPIC</a>
         </article>
 <?php
 include('footer.php');
